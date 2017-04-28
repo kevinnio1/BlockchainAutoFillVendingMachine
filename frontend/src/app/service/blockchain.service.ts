@@ -1,4 +1,4 @@
-import {Injectable} from "@angular/core";
+import {Inject, Injectable} from "@angular/core";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import "rxjs/add/operator/map";
@@ -11,11 +11,11 @@ import {SubscribeResultHandler} from "../util/utils";
 
 @Injectable()
 export class BlockchainService {
-  constructor( private http:Http,private subscribeResultHandler: SubscribeResultHandler){}
+  constructor( private http:Http,public subscribeResultHandler: SubscribeResultHandler){}
 
-  /*public getPeers () : Observable<any>
+  getPeersOfNode(): Observable<any>
   {
-    return this.http.get("/api/getPeersOfNode").map(this.subscribeResultHandler.handleResponse)
+    return this.http.get("/api/getPeersOfNode").map(result => result.json())
       .catch(this.subscribeResultHandler.handleError);
-  }*/
+  }
 }

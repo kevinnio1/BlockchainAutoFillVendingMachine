@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Http, Response} from "@angular/http";
-import {removeSummaryDuplicates} from "@angular/compiler";
-import {Observable} from "rxjs/Observable";
+import {Http} from "@angular/http";
+import {Peer} from "./model/peer";
+import "rxjs/add/operator/map";
 
 @Component({
   selector: 'app-root',
@@ -12,15 +12,13 @@ export class AppComponent implements OnInit{
 
   constructor(private http:Http){}
   title = 'app works!';
-  private nodes : Observable<Response>;
-  private proberen: string='';
+  private peers: Peer[]=[];
 
   ngOnInit(){
-   this.nodes =  this.http.get("/api/blockchain/getPeersOfNode");
-   console.log(this.nodes);
-   this.nodes.subscribe(
-     result =>   {this.proberen = result.toString();}
-   );
+    this.http.get("/api/blockchain/getPeersOfNode").map(result => result.json()).subscribe(
+      result => {this.peers = result.map(item => {return new Peer(item.address,item.pkiID,item.type)}); console.log(this.peers);},
+      error =>  {console.log(error as string);}
+    );
   }
 
 
