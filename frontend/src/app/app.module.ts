@@ -4,15 +4,20 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import  {BlockchainService} from './service/blockchain.service'
+import { PeerComponent} from './component/peer/peer.component'
+import { NgSemanticModule } from 'ng-semantic/ng-semantic';
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PeerComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    NgSemanticModule
   ],
   providers: [BlockchainService],
   bootstrap: [AppComponent]
