@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Http} from "@angular/http";
 import {Peer} from "./model/peer";
 import "rxjs/add/operator/map";
-import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
   selector: 'app-root',
