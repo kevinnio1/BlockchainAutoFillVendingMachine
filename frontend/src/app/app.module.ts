@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import  {BlockchainService} from './service/blockchain.service'
-import { L_SEMANTIC_UI_MODULE } from 'angular2-semantic-ui';
 import { PeerComponent} from './component/peer/peer.component'
+import { NgSemanticModule } from 'ng-semantic/ng-semantic';
 
 
 @NgModule({
@@ -17,7 +17,7 @@ import { PeerComponent} from './component/peer/peer.component'
     BrowserModule,
     FormsModule,
     HttpModule,
-    L_SEMANTIC_UI_MODULE
+    NgSemanticModule
   ],
   providers: [BlockchainService],
   bootstrap: [AppComponent]
