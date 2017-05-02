@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import  {BlockchainService} from './service/blockchain.service'
 import { PeerComponent} from './component/peer/peer.component'
-import { NgSemanticModule } from 'ng-semantic/ng-semantic';
+import { NgSemanticModule } from "ng-semantic";
 
 
 @NgModule({
