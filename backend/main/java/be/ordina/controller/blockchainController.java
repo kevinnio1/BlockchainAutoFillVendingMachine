@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.web3j.crypto.CipherException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -73,6 +74,28 @@ public class blockchainController {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+        return res;
+    }
+
+
+
+    @RequestMapping(value="/stockRefill",method = RequestMethod.GET)
+    public String stockRefill() {
+        String res = "";
+
+        try {
+            res = web3jService.vendingStockRefill();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (CipherException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Result refill stock : " + res);
         return res;
     }
 

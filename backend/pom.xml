@@ -49,7 +49,14 @@
 		</dependency>
 
 	</dependencies>
-
+	<!-- repo wel nodig?-->
+	<repositories>
+		<repository>
+			<id>oss.jfrog.org</id>
+			<url>http://dl.bintray.com/web3j/maven</url>
+		</repository>
+	</repositories>
+	<!-- repo wel nodig?-->
 	<build>
 		<plugins>
 			<plugin>
