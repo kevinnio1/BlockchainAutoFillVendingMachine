@@ -3,10 +3,7 @@ package be.ordina.controller;
 import be.ordina.service.blockchainService;
 import be.ordina.service.web3jService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.web3j.crypto.CipherException;
 
 import java.io.IOException;
@@ -77,14 +74,32 @@ public class blockchainController {
         return res;
     }
 
-
-
-    @RequestMapping(value="/stockRefill",method = RequestMethod.GET)
-    public String stockRefill() {
-        String res = "";
+    @RequestMapping(value="/getStock",method = RequestMethod.GET)
+    public int getSTock() {
+        int res = 0;
 
         try {
-            res = web3jService.vendingStockRefill();
+            res = web3jService.getStock();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (CipherException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Result get stock : " + res);
+        return res;
+    }
+
+    @RequestMapping(value="/stockRefill/{amount}",method = RequestMethod.POST)
+    public int stockRefill(@PathVariable String amount) {
+        int res = 0;
+
+        try {
+            res = web3jService.vendingStockRefill( Integer.parseInt(amount));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
