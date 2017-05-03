@@ -26,6 +26,7 @@
     "jquery": "^3.2.1",
     "ng-semantic": "^1.1.13",
     "rxjs": "^5.1.0",
+    "solc": "^0.4.10",
     "zone.js": "^0.8.4"
   },
   "devDependencies": {
