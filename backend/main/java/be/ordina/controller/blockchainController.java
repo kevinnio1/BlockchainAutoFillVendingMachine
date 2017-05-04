@@ -103,9 +103,8 @@ public class blockchainController {
     }
 
     @RequestMapping(value="/buyOne",method = RequestMethod.POST)
-    public String buyOne() {
-        String res = "";
-
+    public int buyOne() {
+        int res = 0;
         try {
             res = web3jService.buyOne();
         } catch (IOException e) {

@@ -9,3 +9,10 @@ Current stock: {{stock}} <br />
   <div id="btnRefill"><sm-button type="submit" class="primary">Refill</sm-button></div>
 </form>
 </div>
+
+<div>
+  <sm-loader [complete]="!loadingBuyOne" class="inverted" text="Loading..."></sm-loader>
+  <form class="ui form" #refillForm="ngForm" (ngSubmit)="submitBuyOne()">
+    <div id="btnBuy"><sm-button type="submit" class="primary">Buy One</sm-button></div>
+  </form>
+</div>

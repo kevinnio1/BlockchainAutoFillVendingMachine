@@ -15,6 +15,7 @@ export class VendingmachineComponent implements OnInit{
   private stock:number=0;
   private amount:number;
   private loadingRefill:boolean = true;
+  private loadingBuyOne:boolean = false;
   constructor(private http:Http){}
 
 
@@ -38,6 +39,17 @@ export class VendingmachineComponent implements OnInit{
     }else {
       console.log("niets ingevuld!");
     }
+  }
+
+  submitBuyOne() {
+    this.loadingBuyOne = true;
+    this.http.post("/api/blockchain/buyOne/",{}).map(res => res.json()).subscribe(
+      result => {
+        this.loadingBuyOne = false;
+        this.stock = result;
+      }
+    );
+
   }
 
 
