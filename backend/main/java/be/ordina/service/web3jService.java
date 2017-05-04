@@ -110,7 +110,7 @@ public class web3jService {
             final String transactionHash = transactionResponse.getTransactionHash();
             //System.out.println("TransactionHash " + transactionHash);
 
-
+            //todo: find an more performant way to see if block is mined
             Subscription subscription = web3.blockObservable(false).subscribe(block -> {
                 for (EthBlock.TransactionResult tr :
                         block.getBlock().getTransactions()) {
