@@ -1,6 +1,5 @@
 package be.ordina.controller;
 
-import be.ordina.service.blockchainService;
 import be.ordina.service.web3jService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,18 +22,7 @@ public class blockchainController {
     //private final web3jService web3jService;
 
     @Autowired
-    private blockchainService blockchainService;
-
-    @Autowired
     private web3jService web3jService;
-
-    @RequestMapping(value="/getPeersOfNode",method = RequestMethod.GET)
-    public String getPeersOfNode() {
-           String res = blockchainService.getPeersOfNode("https://83e0829f9b1d4746b9d3e46314c35f57-vp1.us.blockchain.ibm.com:5001");
-           System.out.println("respones : " + res);
-           return res;
-
-    }
 
     @RequestMapping(value="/getClientVersion",method = RequestMethod.GET)
     public String getClientVersion() {
@@ -114,5 +102,24 @@ public class blockchainController {
         return res;
     }
 
+    @RequestMapping(value="/buyOne",method = RequestMethod.POST)
+    public String buyOne() {
+        String res = "";
+
+        try {
+            res = web3jService.buyOne();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (CipherException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Result buyOne: " + res);
+        return res;
+    }
 
 }
