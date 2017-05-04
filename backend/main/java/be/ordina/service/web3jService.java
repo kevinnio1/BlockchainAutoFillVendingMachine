@@ -1,6 +1,7 @@
 package be.ordina.service;
 
 import be.ordina.model.Vending;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import jdk.nashorn.internal.ir.Block;
 import oracle.jrockit.jfr.settings.EventDefault;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,9 @@ import org.web3j.utils.Convert;
 import rx.Subscription;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -62,10 +65,23 @@ public class web3jService {
         return clientVersion;
 
     }
-    public List<String> getAccounts() throws IOException, ExecutionException, InterruptedException {
 
+    public List<String> getAccounts() throws IOException, ExecutionException, InterruptedException {
+        List<String> list = new ArrayList<>();
         EthAccounts accounts =  web3.ethAccounts().sendAsync().get();
-        return accounts.getAccounts();
+        for (String s : accounts.getAccounts()) {
+
+
+            BigInteger balance = web3.ethGetBalance(s,DefaultBlockParameterName.LATEST).sendAsync().get().getBalance();
+
+            String accAndBalance = s.concat("  ").concat(Convert.fromWei(balance.toString(), Convert.Unit.ETHER).toString()).concat("ETHER");
+            list.add(accAndBalance);
+        }
+
+
+
+        return list;
+        //return accounts.getAccounts();
     }
     public Integer getStock() throws IOException, ExecutionException, InterruptedException, CipherException {
         Type result = vendingContract.stock().get();
@@ -82,7 +98,7 @@ public class web3jService {
 
     }
 
-
+//todo: na deze methode aan te roepen moet de getAccounts terug aangeroepen worden in de angular en upgedate worden.
     public int buyOne() throws IOException, CipherException, ExecutionException, InterruptedException {
         if (getStock() == 0) {
             return 0;
@@ -97,7 +113,7 @@ public class web3jService {
             //unlock accounts
             PersonalUnlockAccount cola = parity.personalUnlockAccount("0x1c6B88A198a06868D9fAB6e54056F04195CfCe8C", "cola", duration).sendAsync().get();
             //PersonalUnlockAccount ordina = parity.personalUnlockAccount("0xDEF240271e9E6b79b06f3a7C4A144D3874e512d2","ordina", duration).send();
-
+            
 
             //String transactionHash = "";
 
