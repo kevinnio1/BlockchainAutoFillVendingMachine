@@ -5,6 +5,9 @@
 import {Component, OnInit} from "@angular/core";
 import {Http} from "@angular/http";
 
+
+
+
 @Component({
   selector: 'vendingmachine-component',
   templateUrl: './vendingmachine.component.html',
@@ -49,6 +52,7 @@ export class VendingmachineComponent implements OnInit{
         this.stock = result;
         console.log(this.stock);
         this.loadingRefill = false;
+
       },
       error =>  {console.log(error as string);}
     );

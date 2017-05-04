@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { PeerComponent} from './component/peer/peer.component'
 import {VendingmachineComponent} from './component/vendingmachine/vendingmachine.component'
 import { NgSemanticModule } from "ng-semantic";
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { NgSemanticModule } from "ng-semantic";
   imports: [
     BrowserModule,
     FormsModule,
+    NgbModule.forRoot(),
     HttpModule,
     NgSemanticModule
   ],

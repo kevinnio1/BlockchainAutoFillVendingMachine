@@ -1,11 +1,16 @@
-<div class="dimmable">
-  <sm-loader [complete]="!loadingRefill" class="inverted" text="Loading..."></sm-loader>
-<h1>Vending Component</h1>
-Current stock: {{stock}} <br />
-<form class="ui form" #refillForm="ngForm" (ngSubmit)="submitRefill()">
-  <div id="enterAmount" class="ui input">
-    <input type="number" label="amount" name="amount" id="amount" [(ngModel)]="amount">
+
+
+
+    <div class="dimmable">
+    <sm-loader [complete]="!loadingRefill" class="inverted" text="Loading..."></sm-loader>
+  <h2>Vending Component</h2>
+      <p><ngb-progressbar  type="success" [value]="stock" [max]="50">{{stock}} cans</ngb-progressbar></p>
+   <br />
+  <form class="ui form" #refillForm="ngForm" (ngSubmit)="submitRefill()">
+    <div id="enterAmount" class="ui input">
+      <input type="number" label="amount" name="amount" id="amount" [(ngModel)]="amount">
+    </div>
+    <div id="btnRefill"><sm-button type="submit" class="primary">Refill</sm-button></div>
+  </form>
   </div>
-  <div id="btnRefill"><sm-button type="submit" class="primary">Refill</sm-button></div>
-</form>
-</div>
+
