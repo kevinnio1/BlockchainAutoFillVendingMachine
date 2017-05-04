@@ -32,9 +32,13 @@ import java.util.concurrent.ExecutionException;
 
 @Service
 public class web3jService {
+    private Web3j web3;
+
+    public web3jService(){
+        web3 = Web3j.build(new HttpService());
+    }
 
     public Vending initConnectionVending() throws IOException, CipherException {
-        Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
         Credentials credentials = WalletUtils.loadCredentials(BlockchainLocalSettings.VENDING_PASSWORD, BlockchainLocalSettings.WALLET_MACHINE);
         BigInteger gasprice = BigInteger.valueOf(150000);
         BigInteger gaslimit = BigInteger.valueOf(300000);
@@ -43,17 +47,12 @@ public class web3jService {
     }
 
     public String getClientVersion() throws IOException, ExecutionException, InterruptedException {
-
-        Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
         Web3ClientVersion web3ClientVersion = web3.web3ClientVersion().sendAsync().get();
         String clientVersion = web3ClientVersion.getWeb3ClientVersion();
         EthAccounts accounts =  web3.ethAccounts().sendAsync().get();
         return clientVersion;
-
     }
     public List<String> getAccounts() throws IOException, ExecutionException, InterruptedException {
-
-        Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
         EthAccounts accounts =  web3.ethAccounts().sendAsync().get();
         return accounts.getAccounts();
     }
@@ -64,14 +63,11 @@ public class web3jService {
     }
 
     public Integer vendingStockRefill(int amount) throws IOException, ExecutionException, InterruptedException, CipherException {
-
-
         Vending contract = initConnectionVending();
         BigInteger am = BigInteger.valueOf(amount);
         TransactionReceipt transactionReceipt = contract.stockUp(new Int256(am)).get();
         Type result = contract.stock().get();
         return Integer.parseInt(result.getValue().toString());
-
     }
 
 
