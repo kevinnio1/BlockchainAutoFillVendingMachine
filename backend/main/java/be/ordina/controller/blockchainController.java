@@ -78,7 +78,7 @@ public class blockchainController {
             e.printStackTrace();
         }
 
-        System.out.println("Result get stock : " + res);
+        //System.out.println("Result get stock : " + res);
         return res;
     }
 
@@ -98,7 +98,7 @@ public class blockchainController {
             e.printStackTrace();
         }
 
-        System.out.println("Result refill stock : " + res);
+        //System.out.println("Result refill stock : " + res);
         return res;
     }
 

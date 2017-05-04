@@ -59,7 +59,7 @@ export class VendingmachineComponent implements OnInit{
         console.log("Resultaat get Stock: ");
         console.log(result);
         this.stock = result;
-        console.log(this.stock);
+        //console.log(this.stock);
         this.loadingRefill = false;
       },
       error =>  {console.log(error as string);}
