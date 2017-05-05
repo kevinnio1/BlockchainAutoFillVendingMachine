@@ -78,7 +78,7 @@ public class blockchainController {
             e.printStackTrace();
         }
 
-        System.out.println("Result get stock : " + res);
+        //System.out.println("Result get stock : " + res);
         return res;
     }
 
@@ -98,14 +98,13 @@ public class blockchainController {
             e.printStackTrace();
         }
 
-        System.out.println("Result refill stock : " + res);
+        //System.out.println("Result refill stock : " + res);
         return res;
     }
-
+    
     @RequestMapping(value="/buyOne",method = RequestMethod.POST)
-    public String buyOne() {
-        String res = "";
-
+    public int buyOne() {
+        int res = 0;
         try {
             res = web3jService.buyOne();
         } catch (IOException e) {

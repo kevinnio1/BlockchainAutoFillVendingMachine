@@ -20,7 +20,7 @@ export class PeerComponent implements OnInit{
   ngOnInit(){
     this.http.get("/api/blockchain/getAccounts").map(result => result.json()).subscribe(
       result => {
-        console.log(result);
+        //console.log(result);
         this.accounts = result;
         console.log(this.accounts);
       },
