@@ -93,12 +93,11 @@ public class web3jService {
 
         BigInteger am = BigInteger.valueOf(amount);
         TransactionReceipt transactionReceipt = vendingContract.stockUp(new Int256(am)).get();
-        Type result = vendingContract.stock().get();
-        return Integer.parseInt(result.getValue().toString());
+        return getStock();
 
     }
 
-//todo: na deze methode aan te roepen moet de getAccounts terug aangeroepen worden in de angular en upgedate worden.
+
     public int buyOne() throws IOException, CipherException, ExecutionException, InterruptedException {
         if (getStock() == 0) {
             return 0;
@@ -113,36 +112,21 @@ public class web3jService {
             //unlock accounts
             PersonalUnlockAccount cola = parity.personalUnlockAccount("0x1c6B88A198a06868D9fAB6e54056F04195CfCe8C", "cola", duration).sendAsync().get();
             //PersonalUnlockAccount ordina = parity.personalUnlockAccount("0xDEF240271e9E6b79b06f3a7C4A144D3874e512d2","ordina", duration).send();
-            
 
-            //String transactionHash = "";
 
             EthGetTransactionCount ethGetTransactionCount = web3.ethGetTransactionCount("0x1c6B88A198a06868D9fAB6e54056F04195CfCe8C", DefaultBlockParameterName.LATEST).sendAsync().get();
             BigInteger nonce = ethGetTransactionCount.getTransactionCount();
             Function function = new Function("pay", Arrays.<Type>asList(), Collections.<TypeReference<?>>emptyList());
             String encodedFunction = FunctionEncoder.encode(function);
             org.web3j.protocol.core.methods.request.Transaction transaction = org.web3j.protocol.core.methods.request.Transaction.createFunctionCallTransaction("0x1c6B88A198a06868D9fAB6e54056F04195CfCe8C", nonce, gasprice, gaslimit, BlockchainLocalSettings.VENDING_CONTRACT, ether, encodedFunction);
-            org.web3j.protocol.core.methods.response.EthSendTransaction transactionResponse = web3.ethSendTransaction(transaction).send();
+            org.web3j.protocol.core.methods.response.EthSendTransaction transactionResponse = web3.ethSendTransaction(transaction).sendAsync().get();
+
             final String transactionHash = transactionResponse.getTransactionHash();
-            //System.out.println("TransactionHash " + transactionHash);
-
-            //todo: find an more performant way to see if block is mined
-            Subscription subscription = web3.blockObservable(false).subscribe(block -> {
-                for (EthBlock.TransactionResult tr :
-                        block.getBlock().getTransactions()) {
-                    //System.out.println("Transaction: hashcode" + tr.hashCode());
-                    if (tr.get().toString().equalsIgnoreCase(transactionHash)) {
-                        changeMined();
-                    }
-
-                }
-            });
-
-            do {
-                //wait till block is appended to transaction
-            } while (!minedTransaction);
-            minedTransaction = false;
-            subscription.unsubscribe();
+            EthGetTransactionReceipt transactionReceipt= null;
+            //todo: indien niet toegevoegd door error moet deze niet wachten op de transactionreceipt. Dus een timeout hierop plaatsen?
+            do{
+               transactionReceipt = web3.ethGetTransactionReceipt(transactionHash).sendAsync().get();
+            }while(!transactionReceipt.getTransactionReceipt().isPresent());
             return getStock();
 
         }
