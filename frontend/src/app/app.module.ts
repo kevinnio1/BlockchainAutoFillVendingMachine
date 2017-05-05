@@ -10,9 +10,10 @@ import{ LoginComponent } from './component/login/login.component'
 import{ RegisterComponent } from './component/register/register.component'
 import {AuthGuard} from "./guards/auth.guard";
 import {AppRoutingModule} from '../app/app-routing.modules';
-import {CookieUtils, XhrBaseRequestOptions} from "./util/utils";
+import {CookieUtils, SubscribeResultHandler, XhrBaseRequestOptions} from "./util/utils";
 import {AuthenticationService} from "./service/authentication.service";
 import {DashboardComponent} from "./component/dashboard/dashboard.component"
+import {BlockchainService} from "./service/blockchain.service";
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import {DashboardComponent} from "./component/dashboard/dashboard.component"
     ReactiveFormsModule,
     NgSemanticModule
   ],
-  providers: [AuthGuard,CookieUtils, XhrBaseRequestOptions,AuthenticationService],
+  providers: [AuthGuard,CookieUtils, XhrBaseRequestOptions,AuthenticationService,BlockchainService,SubscribeResultHandler],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

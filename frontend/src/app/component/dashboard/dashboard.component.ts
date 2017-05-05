@@ -10,5 +10,11 @@ import {Router} from "@angular/router";
   styleUrls: ['dashboard.component.css']
 })
 export class DashboardComponent{
+  constructor(private authService: AuthenticationService, private router: Router) { }
 
+logout(){
+  this.authService.logout();
+  //todo: router navigeren werkt niet
+  this.router.navigate(['/']);
+}
 }
