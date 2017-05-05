@@ -1,5 +1,5 @@
 <div class="dimmable">
-  <sm-loader [complete]="!loadingRefill" class="inverted" text="Loading..."></sm-loader>
+  <sm-loader [complete]="!loadingRefill" class="inverted" text="Waiting till block is mined..."></sm-loader>
 <h1>Vending Component</h1>
 Current stock: {{stock}} <br />
 <form class="ui form" #refillForm="ngForm" (ngSubmit)="submitRefill()">
@@ -11,7 +11,7 @@ Current stock: {{stock}} <br />
 </div>
 
 <div>
-  <sm-loader [complete]="!loadingBuyOne" class="inverted" text="Loading..."></sm-loader>
+  <sm-loader [complete]="!loadingBuyOne" class="inverted" text="Waiting till block is mined. can take a while..."></sm-loader>
   <form class="ui form" #refillForm="ngForm" (ngSubmit)="submitBuyOne()">
     <div id="btnBuy"><sm-button type="submit" class="primary">Buy One</sm-button></div>
   </form>
