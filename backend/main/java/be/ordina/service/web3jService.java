@@ -128,6 +128,7 @@ public class web3jService {
                transactionReceipt = web3.ethGetTransactionReceipt(transactionHash).sendAsync().get();
             }while(!transactionReceipt.getTransactionReceipt().isPresent());
             return getStock();
+            
 
         }
     }
