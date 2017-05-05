@@ -7,6 +7,11 @@ contract vendingMachine {
     address supplier;
     address stakeholder;
     
+    event isPayed(
+        address indexed _from,
+        bool _value
+    );
+    
     int public stock;
     
 
@@ -25,12 +30,14 @@ contract vendingMachine {
     }
     
     function pay() payable returns (bool) {
+        
         client = msg.sender;
         if(stock>0){
         if(msg.value >( price_finney * 1000000000000000)){
             uint256 change = msg.value - (price_finney * 1000000000000000);
             if(!client.send(change)) throw;
         }else if (msg.value < (price_finney * 1000000000000000)){
+            isPayed(msg.sender,false);
             throw;
         }
         
@@ -38,8 +45,12 @@ contract vendingMachine {
         if(!stakeholder.send(10 finney)) throw;
         stock--;
         if(stock == 10) stockUp(40);
+        isPayed(msg.sender,true);
         return true;
-        }else throw;
+        }else{
+            isPayed(msg.sender,false);
+            throw;
+        } 
         
     }
     
