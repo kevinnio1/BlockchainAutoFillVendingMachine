@@ -1,13 +1,7 @@
 package be.ordina.service;
 
 import be.ordina.model.Vending;
-import com.sun.javafx.scene.control.skin.VirtualFlow;
-import jdk.nashorn.internal.ir.Block;
-import oracle.jrockit.jfr.settings.EventDefault;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
-import org.web3j.abi.EventValues;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Function;
@@ -23,10 +17,8 @@ import org.web3j.protocol.http.HttpService;
 import org.web3j.protocol.parity.Parity;
 import org.web3j.protocol.parity.methods.response.PersonalUnlockAccount;
 import org.web3j.utils.Convert;
-import rx.Subscription;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,7 +32,7 @@ import java.util.concurrent.ExecutionException;
 
 
 @Service
-public class web3jService {
+public class Web3jService {
 
 
     private Web3j web3; //defaults to http://localhost:8545
@@ -51,7 +43,7 @@ public class web3jService {
     Parity parity;
     boolean minedTransaction = false;
 
-    public web3jService() throws IOException, CipherException {
+    public Web3jService() throws IOException, CipherException {
         this.web3  = Web3j.build(new HttpService());
         this.parity = Parity.build(new HttpService());
         this.credentials  = WalletUtils.loadCredentials(BlockchainLocalSettings.VENDING_PASSWORD, BlockchainLocalSettings.WALLET_MACHINE);

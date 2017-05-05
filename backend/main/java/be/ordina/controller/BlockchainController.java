@@ -1,6 +1,6 @@
 package be.ordina.controller;
 
-import be.ordina.service.web3jService;
+import be.ordina.service.Web3jService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.web3j.crypto.CipherException;
@@ -16,13 +16,13 @@ import java.util.concurrent.ExecutionException;
 @CrossOrigin
 @RestController
 @RequestMapping(value = RequestMappings.BLOCKCHAIN)
-public class blockchainController {
+public class BlockchainController {
 
 
-    //private final web3jService web3jService;
 
     @Autowired
-    private web3jService web3jService;
+    private Web3jService web3jService;
+
 
     @RequestMapping(value="/getClientVersion",method = RequestMethod.GET)
     public String getClientVersion() {

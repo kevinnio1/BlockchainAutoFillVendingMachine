@@ -4,11 +4,13 @@
 
 import {Component, OnInit} from "@angular/core";
 import {Http} from "@angular/http";
+import {CookieUtils, XhrBaseRequestOptions} from "../../util/utils";
 
 @Component({
   selector: 'vendingmachine-component',
   templateUrl: './vendingmachine.component.html',
-  styleUrls: ['./vendingmachine.component.css']
+  styleUrls: ['./vendingmachine.component.css'],
+  providers: [XhrBaseRequestOptions,CookieUtils]
 })
 
 export class VendingmachineComponent implements OnInit{
@@ -16,7 +18,7 @@ export class VendingmachineComponent implements OnInit{
   private amount:number;
   private loadingRefill:boolean = true;
   private loadingBuyOne:boolean = false;
-  constructor(private http:Http){}
+  constructor(private http:Http, private xhrBaseRequestOptions: XhrBaseRequestOptions,){}
 
 
   submitRefill(){
@@ -27,7 +29,7 @@ export class VendingmachineComponent implements OnInit{
     var url = "/api/blockchain/stockRefill/" + this.amount
     console.log(url);
 
-    this.http.post(url,{}).map(res =>res.json()).subscribe(
+    this.http.post(url,{},this.xhrBaseRequestOptions).map(res =>res.json()).subscribe(
       result => {
         console.log(result);
         this.stock = result;
@@ -43,7 +45,7 @@ export class VendingmachineComponent implements OnInit{
 
   submitBuyOne() {
     this.loadingBuyOne = true;
-    this.http.post("/api/blockchain/buyOne/",{}).map(res => res.json()).subscribe(
+    this.http.post("/api/blockchain/buyOne/",{},this.xhrBaseRequestOptions).map(res => res.json()).subscribe(
       result => {
         this.loadingBuyOne = false;
         this.stock = result;
@@ -54,7 +56,7 @@ export class VendingmachineComponent implements OnInit{
 
 
   ngOnInit(){
-   this.http.get("/api/blockchain/getStock").map(result => result.json()).subscribe(
+   this.http.get("/api/blockchain/getStock",this.xhrBaseRequestOptions).map(result => result.json()).subscribe(
       result => {
         console.log("Resultaat get Stock: ");
         console.log(result);

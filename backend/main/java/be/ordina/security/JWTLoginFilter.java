@@ -1,0 +1,69 @@
+package be.ordina.security;
+
+/**
+ * Created by KeLe on 5/05/2017.
+ */
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Collections;
+
+public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
+
+    public JWTLoginFilter(String url, AuthenticationManager authManager) {
+        super(new AntPathRequestMatcher(url));
+        setAuthenticationManager(authManager);
+    }
+
+
+
+    @Override
+    public Authentication attemptAuthentication(
+            HttpServletRequest req, HttpServletResponse res)
+            throws AuthenticationException, IOException, ServletException {
+
+
+        AccountCredentials creds = new ObjectMapper().readValue(req.getInputStream(), AccountCredentials.class);
+        //System.out.println("Username: " + creds.getUsername() + " passowrd: " + creds.getPassword());
+        UsernamePasswordAuthenticationToken logintoken = new UsernamePasswordAuthenticationToken(creds.getUsername(),creds.getPassword());
+        Authentication auth = getAuthenticationManager().authenticate(logintoken);
+        return auth;
+        /*return getAuthenticationManager().authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        creds.getUsername(),
+                        creds.getPassword(),
+                        Collections.emptyList()
+                )
+        );*/
+    }
+
+    @Override
+    protected void successfulAuthentication(
+            HttpServletRequest req,
+            HttpServletResponse res, FilterChain chain,
+            Authentication auth) throws IOException, ServletException {
+        System.out.println("successfull authenticated");
+        TokenAuthenticationService
+                .addAuthentication(res, auth.getName());
+
+    }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+        System.out.println("unsuccefull login");
+        super.unsuccessfulAuthentication(request, response, failed);
+    }
+}
