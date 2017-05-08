@@ -41,7 +41,7 @@ export class XhrBaseRequestOptions extends BaseRequestOptions {
       date.setTime(date.getTime() + (days*24*60*60*1000));
       expires = "; expires=" + date.toUTCString();
     }
-    document.cookie = name + "=" + value + expires + "; path=/";
+    document.cookie = name + "=" + value.substring(7) + expires + "; path=/";
   }
   getCookie(name: string) {
     let ca: Array<string> = document.cookie.split(';');

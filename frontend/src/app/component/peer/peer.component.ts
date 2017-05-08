@@ -5,6 +5,7 @@
 import {Component, OnInit} from "@angular/core";
 import {Http} from "@angular/http";
 import {CookieUtils, XhrBaseRequestOptions} from "../../util/utils";
+import {BlockchainService} from "../../service/blockchain.service";
 
 @Component({
   selector: 'peer-component',
@@ -15,12 +16,12 @@ import {CookieUtils, XhrBaseRequestOptions} from "../../util/utils";
 
 export class PeerComponent implements OnInit{
   private accounts:String[]=[];
-  constructor(private http:Http, private xhrBaseRequestOptions: XhrBaseRequestOptions,){}
+  constructor(private http:Http, private blockchainService: BlockchainService){}
 
 
 
   ngOnInit(){
-    this.http.get("/api/blockchain/getAccounts",this.xhrBaseRequestOptions).map(result => result.json()).subscribe(
+    this.blockchainService.getAccounts().subscribe(
       result => {
         //console.log(result);
         this.accounts = result;

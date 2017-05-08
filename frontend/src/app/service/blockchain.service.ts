@@ -5,19 +5,49 @@ import "rxjs/add/operator/do";
 import "rxjs/add/operator/delay";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
-import {Http, Response} from "@angular/http";
-import {XhrBaseRequestOptions, SubscribeResultHandler} from "../util/utils";
+import {Http, RequestOptions,Headers, Response} from "@angular/http";
+import {XhrBaseRequestOptions, SubscribeResultHandler, CookieUtils} from "../util/utils";
 
 @Injectable()
 export class BlockchainService {
 
   constructor(private http: Http,
-              private xhrBaseRequestOptions: XhrBaseRequestOptions,
+              private cookieUtils:CookieUtils,
               private subscribeResultHandler: SubscribeResultHandler) {
 
   }
+
+
+
+  public makeHeaderWithToken():RequestOptions{
+
+    //let headers = new Headers({ 'X-AUTH-TOKEN': this.cookieUtils.getCookie('X-AUTH-TOKEN')});
+    let options = new RequestOptions();
+    options.headers = new Headers({ 'Authorization': this.cookieUtils.getCookie('Authorization'),'Content-Type' :'application/json','X-Requested-With': 'XMLHttpRequest'});
+    return options;
+  }
+
   public getStock(): Observable<number> {
-    return this.http.get("/api/blockchain/getStock", this.xhrBaseRequestOptions)
+    return this.http.get("/api/blockchain/getStock", this.makeHeaderWithToken())
+      .map(this.subscribeResultHandler.handleResponse)
+      .catch(this.subscribeResultHandler.handleError);
+  }
+
+  public getAccounts(): Observable<String[]> {
+    return this.http.get("/api/blockchain/getAccounts", this.makeHeaderWithToken())
+      .map(this.subscribeResultHandler.handleResponse)
+      .catch(this.subscribeResultHandler.handleError);
+  }
+
+  public submitRefill(amount:number ){
+    var url = "/api/blockchain/stockRefill/" + amount;
+    return this.http.post(url,{}, this.makeHeaderWithToken())
+      .map(this.subscribeResultHandler.handleResponse)
+      .catch(this.subscribeResultHandler.handleError);
+  }
+  public buyOne(){
+    var url = "/api/blockchain/buyOne/";
+    return this.http.post(url,{}, this.makeHeaderWithToken())
       .map(this.subscribeResultHandler.handleResponse)
       .catch(this.subscribeResultHandler.handleError);
   }

@@ -27,10 +27,8 @@ export class VendingmachineComponent implements OnInit{
 
     if(this.amount>0){
       this.loadingRefill = true;
-    var url = "/api/blockchain/stockRefill/" + this.amount
-    console.log(url);
 
-    this.http.post(url,{},this.xhrBaseRequestOptions).map(res =>res.json()).subscribe(
+    this.blockchainService.submitRefill(this.amount).subscribe(
       result => {
         console.log(result);
         this.stock = result;
@@ -46,7 +44,7 @@ export class VendingmachineComponent implements OnInit{
 
   submitBuyOne() {
     this.loadingBuyOne = true;
-    this.http.post("/api/blockchain/buyOne/",{},this.xhrBaseRequestOptions).map(res => res.json()).subscribe(
+    this.blockchainService.buyOne().subscribe(
       result => {
         this.loadingBuyOne = false;
         this.stock = result;

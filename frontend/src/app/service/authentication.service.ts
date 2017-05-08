@@ -11,7 +11,7 @@ export class AuthenticationService {
   public authenticated;
   private currentUsername: string;
   //private TOKEN_IDENTIFIER = "X-AUTH-TOKEN";
-  private TOKEN_IDENTIFIER = "authorization";
+  private TOKEN_IDENTIFIER = "Authorization";
   constructor(private http: Http, private cookieUtils: CookieUtils, private xhrBaseRequestOptions: XhrBaseRequestOptions) {
     this.checkAuthentication();
   }
@@ -25,14 +25,12 @@ export class AuthenticationService {
         console.log("Token nu: ");
         console.log(token);
         if (token) {
-          console.log("boventse if");
           this.authenticated = true;
           this.cookieUtils.createCookie(this.TOKEN_IDENTIFIER,token,100);
           this.setLocalStorageUsername(username);
           // return true to indicate successful login
           return true;
         } else {
-          console.log("in de else");
           this.setLocalStorageUsername("");
           // return false to indicate failed login
           return false;
