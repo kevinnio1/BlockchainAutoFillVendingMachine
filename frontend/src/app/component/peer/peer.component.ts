@@ -4,14 +4,14 @@
 
 import {Component, OnInit} from "@angular/core";
 import {Http} from "@angular/http";
-import {CookieUtils, XhrBaseRequestOptions} from "../../util/utils";
+import {CookieUtils} from "../../util/utils";
 import {BlockchainService} from "../../service/blockchain.service";
 
 @Component({
   selector: 'peer-component',
   templateUrl: './peer.component.html',
   styleUrls: ['./peer.component.css'],
-  providers: [XhrBaseRequestOptions,CookieUtils]
+  providers: [CookieUtils]
 })
 
 export class PeerComponent implements OnInit{

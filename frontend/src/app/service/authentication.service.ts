@@ -4,7 +4,7 @@ import "rxjs/add/observable/of";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/delay";
 import {Http, Response} from "@angular/http";
-import {XhrBaseRequestOptions, CookieUtils} from "../util/utils";
+import { CookieUtils} from "../util/utils";
 
 @Injectable()
 export class AuthenticationService {
@@ -12,13 +12,13 @@ export class AuthenticationService {
   private currentUsername: string;
   //private TOKEN_IDENTIFIER = "X-AUTH-TOKEN";
   private TOKEN_IDENTIFIER = "Authorization";
-  constructor(private http: Http, private cookieUtils: CookieUtils, private xhrBaseRequestOptions: XhrBaseRequestOptions) {
+  constructor(private http: Http, private cookieUtils: CookieUtils) {
     this.checkAuthentication();
   }
 
   login(username: string, password: string): Observable<boolean> {
 
-    return this.http.post('/api/login', JSON.stringify({ "username": username, "password": password }), this.xhrBaseRequestOptions)
+    return this.http.post('/api/login', JSON.stringify({ "username": username, "password": password }))
       .map((response: Response) => {
         // login successful if there's a jwt token in the response
         let token = response.headers.get(this.TOKEN_IDENTIFIER);
@@ -48,7 +48,8 @@ export class AuthenticationService {
   }
 
   register(username: string, password: string): Observable<any> {
-    return this.http.post('/api/register', JSON.stringify({ "username": username, "password": password}), this.xhrBaseRequestOptions);
+    //todo: registreren uitwerken
+    return this.http.post('/api/register', JSON.stringify({ "username": username, "password": password}));
 
   }
 
@@ -58,28 +59,6 @@ export class AuthenticationService {
 
   getCurrentUsername(): string {
     return localStorage.getItem("username") || "";
-  }
-
-  changePassword(currentPassword: string, newPassword: string): Observable<boolean> {
-    return this.http.put("/user/changePassword", JSON.stringify({"currentPassword": currentPassword, "newPassword": newPassword}), this.xhrBaseRequestOptions)
-      .map((response: Response) => {
-        if (response.text() === "true") {
-          return true;
-        } else {
-          return false
-        }
-      });
-  }
-
-  disableUser(password: string): Observable<boolean> {
-    return this.http.put("/user/disable", password, this.xhrBaseRequestOptions)
-      .map((response: Response) => {
-      if (response.text() === "true") {
-        return true;
-      } else {
-        return false
-      }
-    });
   }
 
   logout(): void {

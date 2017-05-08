@@ -6,7 +6,7 @@ import "rxjs/add/operator/delay";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 import {Http, RequestOptions,Headers, Response} from "@angular/http";
-import {XhrBaseRequestOptions, SubscribeResultHandler, CookieUtils} from "../util/utils";
+import { SubscribeResultHandler, CookieUtils} from "../util/utils";
 
 @Injectable()
 export class BlockchainService {

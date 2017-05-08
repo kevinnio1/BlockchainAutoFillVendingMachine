@@ -21,17 +21,6 @@ export class SubscribeResultHandler {
     return Observable.throw(errMsg);
   }
 }
-@Injectable()
-export class XhrBaseRequestOptions extends BaseRequestOptions {
-
-  constructor() {
-    super();
-
-    this.headers.append('X-Requested-With', 'XMLHttpRequest');
-    this.headers.append('Content-Type', 'application/json');
-  }
-
-}
   @Injectable()
   export class CookieUtils{
   createCookie(name,value,days) {

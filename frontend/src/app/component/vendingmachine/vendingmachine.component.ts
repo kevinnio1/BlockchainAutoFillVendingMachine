@@ -4,14 +4,14 @@
 
 import {Component, OnInit} from "@angular/core";
 import {Http} from "@angular/http";
-import {CookieUtils, SubscribeResultHandler, XhrBaseRequestOptions} from "../../util/utils";
+import {CookieUtils, SubscribeResultHandler} from "../../util/utils";
 import {BlockchainService} from "../../service/blockchain.service";
 
 @Component({
   selector: 'vendingmachine-component',
   templateUrl: './vendingmachine.component.html',
   styleUrls: ['./vendingmachine.component.css'],
-  providers: [XhrBaseRequestOptions,CookieUtils,BlockchainService,SubscribeResultHandler]
+  providers: [CookieUtils,BlockchainService,SubscribeResultHandler]
 })
 
 export class VendingmachineComponent implements OnInit{
@@ -19,7 +19,7 @@ export class VendingmachineComponent implements OnInit{
   private amount:number;
   private loadingRefill:boolean = true;
   private loadingBuyOne:boolean = false;
-  constructor(private http:Http, private xhrBaseRequestOptions: XhrBaseRequestOptions, private blockchainService: BlockchainService){}
+  constructor(private http:Http, private blockchainService: BlockchainService){}
 
 
   submitRefill(){
