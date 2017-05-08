@@ -14,7 +14,6 @@ export class DashboardComponent{
 
 logout(){
   this.authService.logout();
-  //todo: router navigeren werkt niet
-  this.router.navigate(['/']);
+  this.router.navigate(['/login']);
 }
 }
