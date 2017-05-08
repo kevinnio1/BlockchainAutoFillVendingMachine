@@ -48,7 +48,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
             HttpServletRequest req,
             HttpServletResponse res, FilterChain chain,
             Authentication auth) throws IOException, ServletException {
-        System.out.println("successfull authenticated");
+        //System.out.println("successfull authenticated");
         TokenAuthenticationService
                 .addAuthentication(res, auth.getName());
 
@@ -56,7 +56,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-        System.out.println("unsuccefull login");
+        //System.out.println("unsuccefull login");
         super.unsuccessfulAuthentication(request, response, failed);
     }
 }

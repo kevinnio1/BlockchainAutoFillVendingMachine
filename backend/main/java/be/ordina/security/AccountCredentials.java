@@ -13,6 +13,18 @@ public class AccountCredentials {
     @JsonProperty("password")
     private String password;
 
+    public void setWalletID(String walletID) {
+        this.walletID = walletID;
+    }
+
+    public String getWalletID() {
+
+        return walletID;
+    }
+
+    @JsonProperty("walletID")
+    private String walletID;
+
    public void setUsername(String username) {
         this.username = username;
     }
