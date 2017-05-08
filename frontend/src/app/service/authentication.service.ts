@@ -3,8 +3,9 @@ import {Observable} from "rxjs/Observable";
 import "rxjs/add/observable/of";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/delay";
-import {Http, Response} from "@angular/http";
+import {Http, RequestOptions,Headers, Response} from "@angular/http";
 import { CookieUtils} from "../util/utils";
+import {combineAll} from "rxjs/operator/combineAll";
 
 @Injectable()
 export class AuthenticationService {
@@ -47,9 +48,11 @@ export class AuthenticationService {
     return this.cookieUtils.getCookie(this.TOKEN_IDENTIFIER);
   }
 
-  register(username: string, password: string): Observable<any> {
+  register(username: string, password: string, walletID:string): Observable<any> {
     //todo: registreren uitwerken
-    return this.http.post('/api/register', JSON.stringify({ "username": username, "password": password}));
+    let options = new RequestOptions();
+    options.headers = new Headers({ 'Content-Type' :'application/json','X-Requested-With': 'XMLHttpRequest'});
+    return this.http.post('/api/users/register', JSON.stringify({ "username": username, "password": password, "walletID" : walletID}),options);
 
   }
 

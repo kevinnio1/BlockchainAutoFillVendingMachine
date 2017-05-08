@@ -5,4 +5,5 @@ package be.ordina.controller;
  */
 public interface RequestMappings {
     String BLOCKCHAIN = "/api/blockchain";
+    String USERS = "/api/users";
 }

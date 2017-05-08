@@ -23,17 +23,18 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.registerForm = this.fb.group({
-       username: ['', [<any>Validators.required]],
+      username: new FormControl('', [<any>Validators.required]),
+      walletID: new FormControl('', [<any>Validators.required]),
       "password": this.password,
       "passwordAgain": this.passwordAgain
     }, {validator: this.matchingPasswords('password', 'passwordAgain')});
 
-    this.route
+    /*this.route
       .queryParams
       .subscribe(params => {
         this.teamId = params['team'];
         console.log(this.teamId);
-      });
+      });*/
   }
 
   ngOnDestroy() {
@@ -52,10 +53,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   submitLogin(model: User, valid:boolean){
-    if(!valid) return;
+    //if(!valid) return;
     this.loading = true;
+    console.log(model.username);
+    console.log(model.walletID);
+    console.log(model.password);
 
-    this.registerSubscription = this.authenticationService.register(model.username, model.password).subscribe(result => {
+    this.registerSubscription = this.authenticationService.register(model.username, model.password, model.walletID).subscribe(result => {
       console.log("Registration successful!");
       this.error = undefined;
       this.router.navigate(['/login']);

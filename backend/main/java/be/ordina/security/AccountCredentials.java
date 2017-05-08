@@ -15,6 +15,12 @@ public class AccountCredentials {
     @JsonProperty("walletID")
     private String walletID;
 
+    public AccountCredentials(String username, String password, String walletID) {
+        this.username = username;
+        this.password = password;
+        this.walletID = walletID;
+    }
+
     public void setWalletID(String walletID) {
         this.walletID = walletID;
     }
