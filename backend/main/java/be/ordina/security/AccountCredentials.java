@@ -12,6 +12,8 @@ public class AccountCredentials {
     private String username;
     @JsonProperty("password")
     private String password;
+    @JsonProperty("walletID")
+    private String walletID;
 
     public void setWalletID(String walletID) {
         this.walletID = walletID;
@@ -22,8 +24,7 @@ public class AccountCredentials {
         return walletID;
     }
 
-    @JsonProperty("walletID")
-    private String walletID;
+
 
    public void setUsername(String username) {
         this.username = username;
