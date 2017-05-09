@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.annotation.Resource;
@@ -18,6 +19,14 @@ import javax.annotation.Resource;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Bean
+    public UserDetailsService mongoUserDetails() {
+        return new CustomerUserDetailsService();
+    }
+
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
@@ -40,14 +49,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // Create a default account
-        auth.inMemoryAuthentication()
+        /*auth.inMemoryAuthentication()
                 .withUser("admin")
                 .password("password")
                 .roles("ADMIN");
         auth.inMemoryAuthentication()
                 .withUser("betaler")
                 .password("betaler")
-                .roles("USER");
+                .roles("USER");*/
+        //todo: hier aanpassen dat hij de customgedoe gebruikt van mongodb
+        UserDetailsService userDetailsService = mongoUserDetails();
+        auth.userDetailsService(userDetailsService);
     }
 
     public WebSecurityConfig() {
