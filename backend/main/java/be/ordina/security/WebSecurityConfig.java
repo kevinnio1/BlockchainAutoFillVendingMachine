@@ -57,7 +57,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .withUser("betaler")
                 .password("betaler")
                 .roles("USER");*/
-        //todo: hier aanpassen dat hij de customgedoe gebruikt van mongodb
         UserDetailsService userDetailsService = mongoUserDetails();
         auth.userDetailsService(userDetailsService);
     }

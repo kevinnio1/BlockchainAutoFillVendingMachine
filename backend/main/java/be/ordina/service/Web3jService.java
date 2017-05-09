@@ -90,27 +90,30 @@ public class Web3jService {
     }
 
 
-    public int buyOne() throws IOException, CipherException, ExecutionException, InterruptedException {
+    public int buyOne(String walletID, String walletPassword) throws IOException, CipherException, ExecutionException, InterruptedException {
         if (getStock() == 0) {
             return 0;
         } else {
 
 
             BigInteger duration = BigInteger.valueOf(3600);//one hour
-            BigInteger ether = Convert.toWei("2.0", Convert.Unit.ETHER).toBigInteger();
+            BigInteger ether = Convert.toWei("1.0", Convert.Unit.ETHER).toBigInteger();
 
 
             //todo: check first if the accounts are locked
             //unlock accounts
             PersonalUnlockAccount cola = parity.personalUnlockAccount("0x1c6B88A198a06868D9fAB6e54056F04195CfCe8C", "cola", duration).sendAsync().get();
+            PersonalUnlockAccount betaler = parity.personalUnlockAccount(walletID,walletPassword,duration).sendAsync().get();
             //PersonalUnlockAccount ordina = parity.personalUnlockAccount("0xDEF240271e9E6b79b06f3a7C4A144D3874e512d2","ordina", duration).send();
 
+
+            //todo:check if there is enough coins on the walletID
 
             EthGetTransactionCount ethGetTransactionCount = web3.ethGetTransactionCount("0x1c6B88A198a06868D9fAB6e54056F04195CfCe8C", DefaultBlockParameterName.LATEST).sendAsync().get();
             BigInteger nonce = ethGetTransactionCount.getTransactionCount();
             Function function = new Function("pay", Arrays.<Type>asList(), Collections.<TypeReference<?>>emptyList());
             String encodedFunction = FunctionEncoder.encode(function);
-            org.web3j.protocol.core.methods.request.Transaction transaction = org.web3j.protocol.core.methods.request.Transaction.createFunctionCallTransaction("0x1c6B88A198a06868D9fAB6e54056F04195CfCe8C", nonce, gasprice, gaslimit, BlockchainLocalSettings.VENDING_CONTRACT, ether, encodedFunction);
+            org.web3j.protocol.core.methods.request.Transaction transaction = org.web3j.protocol.core.methods.request.Transaction.createFunctionCallTransaction(walletID, nonce, gasprice, gaslimit, BlockchainLocalSettings.VENDING_CONTRACT, ether, encodedFunction);
             org.web3j.protocol.core.methods.response.EthSendTransaction transactionResponse = web3.ethSendTransaction(transaction).sendAsync().get();
 
             final String transactionHash = transactionResponse.getTransactionHash();

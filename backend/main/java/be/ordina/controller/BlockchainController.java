@@ -18,7 +18,8 @@ import java.util.concurrent.ExecutionException;
 @RequestMapping(value = RequestMappings.BLOCKCHAIN)
 public class BlockchainController {
 
-
+    @Autowired
+    private UserController userController;
 
     @Autowired
     private Web3jService web3jService;
@@ -106,7 +107,7 @@ public class BlockchainController {
     public int buyOne() {
         int res = 0;
         try {
-            res = web3jService.buyOne();
+            res = web3jService.buyOne(userController.getWalletIDcurrentUser(),userController.getWalletPassword());
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
