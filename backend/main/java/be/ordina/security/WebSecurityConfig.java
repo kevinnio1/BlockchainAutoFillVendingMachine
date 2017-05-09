@@ -50,8 +50,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .roles("USER");
     }
 
-    //yves gedoe
-
     public WebSecurityConfig() {
         super(true);
     }

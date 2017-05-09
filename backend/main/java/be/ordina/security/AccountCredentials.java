@@ -20,6 +20,19 @@ public class AccountCredentials {
         this.password = password;
         this.walletID = walletID;
     }
+    public AccountCredentials(String username, String password) {
+        this.username = username;
+        this.password = password;
+
+    }
+
+    public AccountCredentials() {
+    }
+
+    public AccountCredentials(String username) {
+        this.username = username;
+    }
+
 
     public void setWalletID(String walletID) {
         this.walletID = walletID;
