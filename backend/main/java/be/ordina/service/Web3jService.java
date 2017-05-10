@@ -187,4 +187,10 @@ public class Web3jService {
         TransactionReceipt transactionReceipt= vendingContract.addAdmin(newAddress).get();
         return true;
     }
+
+    public boolean addNewUser(String walletID) throws ExecutionException, InterruptedException {
+        Address newAddress = new Address(walletID);
+        TransactionReceipt transactionReceipt= vendingContract.add(newAddress).get();
+        return true;
+    }
 }

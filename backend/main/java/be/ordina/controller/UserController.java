@@ -26,13 +26,12 @@ public class UserController {
         System.out.println("in the register ");
         AccountCredentials newUser = new AccountCredentials(userRegistration.getUsername(),userRegistration.getPassword(),userRegistration.getWalletID());
 
-
+        //newUser.setAdmin(false);
         boolean success = userService.createUser(newUser);
         if(success){
-            //todo: toevoegen aan contractlijst
-            //toevoegen aan contract in de lijst
             try{
            return blockchainController.addNewAdmin(newUser.getWalletID());
+           // return blockchainController.addNewNormalUser(newUser.getWalletID());
             }catch(Exception e){
                 e.printStackTrace();
                 return false;
