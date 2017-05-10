@@ -128,7 +128,7 @@ public class Web3jService {
     }
 
 
-    public int buyOne() throws IOException, CipherException, ExecutionException, InterruptedException {
+    public int buyOne(String currentwalletID,String passwordWallet) throws IOException, CipherException, ExecutionException, InterruptedException {
         if (getStock() == 0) {
             return 0;
         } else {
@@ -141,17 +141,21 @@ public class Web3jService {
             //todo: check first if the accounts are locked
             //unlock accounts
             PersonalUnlockAccount cola = parity.personalUnlockAccount("0x1c6B88A198a06868D9fAB6e54056F04195CfCe8C", "cola", duration).sendAsync().get();
-            //PersonalUnlockAccount ordina = parity.personalUnlockAccount("0xDEF240271e9E6b79b06f3a7C4A144D3874e512d2","ordina", duration).send();
-
+            PersonalUnlockAccount ordina = parity.personalUnlockAccount("0xDEF240271e9E6b79b06f3a7C4A144D3874e512d2","ordina", duration).send();
+            //PersonalUnlockAccount betaler = parity.personalUnlockAccount("0x08796f22807D8aE6d3B5C4427d84FC49E9551f24", "betaler", duration).sendAsync().get();
 
             EthGetTransactionCount ethGetTransactionCount = web3.ethGetTransactionCount("0x1c6B88A198a06868D9fAB6e54056F04195CfCe8C", DefaultBlockParameterName.LATEST).sendAsync().get();
             BigInteger nonce = ethGetTransactionCount.getTransactionCount();
             Function function = new Function("pay", Arrays.<Type>asList(), Collections.<TypeReference<?>>emptyList());
             String encodedFunction = FunctionEncoder.encode(function);
-            org.web3j.protocol.core.methods.request.Transaction transaction = org.web3j.protocol.core.methods.request.Transaction.createFunctionCallTransaction("0x1c6B88A198a06868D9fAB6e54056F04195CfCe8C", nonce, gasprice, gaslimit, BlockchainLocalSettings.VENDING_CONTRACT, ether, encodedFunction);
+            org.web3j.protocol.core.methods.request.Transaction transaction = org.web3j.protocol.core.methods.request.Transaction.createFunctionCallTransaction("0xDEF240271e9E6b79b06f3a7C4A144D3874e512d2", nonce, gasprice, gaslimit, BlockchainLocalSettings.VENDING_CONTRACT, ether, encodedFunction);
             org.web3j.protocol.core.methods.response.EthSendTransaction transactionResponse = web3.ethSendTransaction(transaction).sendAsync().get();
 
             final String transactionHash = transactionResponse.getTransactionHash();
+            if(transactionHash==null){
+                System.out.println(transactionResponse.getError().getMessage());
+                return getStock();
+            }
             EthGetTransactionReceipt transactionReceipt= null;
             //todo: indien niet toegevoegd door error moet deze niet wachten op de transactionreceipt. Dus een timeout hierop plaatsen?
             do{

@@ -110,7 +110,7 @@ public class BlockchainController {
             //res = web3jService.buyOne();
             String currentwalletID = userController.getWalletIDcurrentUser();
             String passwordWallet = userController.getWalletPassword();
-            res = web3jService.buyOne();
+            res = web3jService.buyOne(currentwalletID,passwordWallet);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
