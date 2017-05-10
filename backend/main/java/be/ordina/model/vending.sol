@@ -15,8 +15,8 @@ contract vendingMachine {
     event isPayed(address indexed _from, bool _value);
     
     modifier restrictAccessTo(address[] _collection){
-        for(uint i = 0; i < accounts.length; i++) {
-            if (accounts[i] == msg.sender) {
+        for(uint i = 0; i < _collection.length; i++) {
+            if (_collection[i] == msg.sender) {
                 _;
                 return;
             }
@@ -81,7 +81,9 @@ contract vendingMachine {
         if(amount<=0 && stock + amount > 50) throw;
         if(!supplier.send(uint256(amount) * 10 finney)) throw;
         stock += amount;
-        
+        if(msg.value > 0){
+            if(!msg.sender.send(msg.value)) throw;
+        }
         return stock;
         
     }
