@@ -1,5 +1,6 @@
 package be.ordina.controller;
 
+import be.ordina.security.AccountCredentials;
 import be.ordina.service.Web3jService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,8 @@ import java.util.concurrent.ExecutionException;
 @RequestMapping(value = RequestMappings.BLOCKCHAIN)
 public class BlockchainController {
 
-
+    @Autowired
+    private UserController userController;
 
     @Autowired
     private Web3jService web3jService;
@@ -105,6 +107,9 @@ public class BlockchainController {
     public int buyOne() {
         int res = 0;
         try {
+            //res = web3jService.buyOne();
+            String currentwalletID = userController.getWalletIDcurrentUser();
+            String passwordWallet = userController.getWalletPassword();
             res = web3jService.buyOne();
         } catch (IOException e) {
             e.printStackTrace();

@@ -26,6 +26,15 @@ public class UserController {
 
     }
 
+    public String getWalletIDcurrentUser(){
+        return userService.getCurrentUser().getWalletID();
+    }
+
+    public String getWalletPassword() {
+
+        return userService.getCurrentUser().getPassword();
+    }
+
 
     public static class UserRegistration {
         String username;
