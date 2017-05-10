@@ -17,6 +17,7 @@ import org.web3j.protocol.http.HttpService;
 import org.web3j.protocol.parity.Parity;
 import org.web3j.protocol.parity.methods.response.PersonalUnlockAccount;
 import org.web3j.utils.Convert;
+import rx.Subscription;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -42,12 +43,49 @@ public class Web3jService {
     Vending vendingContract;
     Parity parity;
     boolean minedTransaction = false;
+    Subscription subscription;
+    Subscription subscription1;
+    Subscription subscription2;
+
+
+
 
     public Web3jService() throws IOException, CipherException {
         this.web3  = Web3j.build(new HttpService());
         this.parity = Parity.build(new HttpService());
         this.credentials  = WalletUtils.loadCredentials(BlockchainLocalSettings.VENDING_PASSWORD, BlockchainLocalSettings.WALLET_MACHINE);
         vendingContract = Vending.load(BlockchainLocalSettings.VENDING_CONTRACT,web3,credentials,gasprice, gaslimit);
+        subscribeToTransactionsandBlocks();
+    }
+
+    public void unsubscribeTransAndBlocks(){
+        System.out.println("unsubscribed");
+        subscription.unsubscribe();
+        subscription1.unsubscribe();
+        subscription2.unsubscribe();
+    }
+    public void subscribeToTransactionsandBlocks(){
+        System.out.println("started subscription");
+        //pending transactions
+        subscription = web3.pendingTransactionObservable().subscribe(tx -> {
+
+            System.out.println("is pending: " + tx.getHash());
+
+        });
+        //added to the blockchain
+        subscription1 = web3.transactionObservable().subscribe(tx -> {
+
+            System.out.println("added to the blockchain: " + tx.getHash());
+
+        });
+
+        subscription2 = web3.blockObservable(false).subscribe(block -> {
+            for (EthBlock.TransactionResult transactionResult:
+                    block.getBlock().getTransactions() ) {
+                System.out.println("transaction in block equals?: " + transactionResult.get().hashCode());
+            }
+        });
+
     }
 
     public String getClientVersion() throws IOException, ExecutionException, InterruptedException {

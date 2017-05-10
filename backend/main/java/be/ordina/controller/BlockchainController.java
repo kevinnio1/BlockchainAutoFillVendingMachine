@@ -23,7 +23,6 @@ public class BlockchainController {
     @Autowired
     private Web3jService web3jService;
 
-
     @RequestMapping(value="/getClientVersion",method = RequestMethod.GET)
     public String getClientVersion() {
         String res = "";
