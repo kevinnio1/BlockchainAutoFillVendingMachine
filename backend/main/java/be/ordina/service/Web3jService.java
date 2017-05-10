@@ -141,19 +141,19 @@ public class Web3jService {
             //todo: check first if the accounts are locked
             //unlock accounts
             //PersonalUnlockAccount cola = parity.personalUnlockAccount("0x1c6B88A198a06868D9fAB6e54056F04195CfCe8C", "cola", duration).sendAsync().get();
-            PersonalUnlockAccount ordina = parity.personalUnlockAccount("0x08796f22807D8aE6d3B5C4427d84FC49E9551f24","betaler", duration).send();
+            PersonalUnlockAccount ordina = parity.personalUnlockAccount(currentwalletID,passwordWallet, duration).send();
 
             //PersonalUnlockAccount betaler = parity.personalUnlockAccount("0x08796f22807D8aE6d3B5C4427d84FC49E9551f24", "betaler", duration).sendAsync().get();
 
             if (ordina.accountUnlocked()) {
 
-                EthGetTransactionCount ethGetTransactionCount = web3.ethGetTransactionCount("0x08796f22807D8aE6d3B5C4427d84FC49E9551f24", DefaultBlockParameterName.LATEST).sendAsync().get();
+                EthGetTransactionCount ethGetTransactionCount = web3.ethGetTransactionCount(currentwalletID, DefaultBlockParameterName.LATEST).sendAsync().get();
                 BigInteger nonce = ethGetTransactionCount.getTransactionCount();
                 Function function = new Function("pay", Arrays.<Type>asList(), Collections.<TypeReference<?>>emptyList());
                 String encodedFunction = FunctionEncoder.encode(function);
-                org.web3j.protocol.core.methods.request.Transaction transaction = org.web3j.protocol.core.methods.request.Transaction.createFunctionCallTransaction("0x08796f22807D8aE6d3B5C4427d84FC49E9551f24", nonce, gasprice, gaslimit, BlockchainLocalSettings.VENDING_CONTRACT, ether, encodedFunction);
+                org.web3j.protocol.core.methods.request.Transaction transaction = org.web3j.protocol.core.methods.request.Transaction.createFunctionCallTransaction(currentwalletID, nonce, gasprice, gaslimit, BlockchainLocalSettings.VENDING_CONTRACT, ether, encodedFunction);
                 //org.web3j.protocol.core.methods.response.EthSendTransaction transactionResponse = web3.ethSendTransaction(transaction).sendAsync().get();
-                org.web3j.protocol.core.methods.response.EthSendTransaction transactionResponse =parity.personalSignAndSendTransaction(transaction,"betaler").send();
+                org.web3j.protocol.core.methods.response.EthSendTransaction transactionResponse =parity.personalSignAndSendTransaction(transaction,passwordWallet).send();
                 final String transactionHash = transactionResponse.getTransactionHash();
                 if (transactionHash == null) {
                     System.out.println(transactionResponse.getError().getMessage());
