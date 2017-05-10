@@ -6,7 +6,9 @@ import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
+import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.generated.Int256;
+import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
@@ -122,8 +124,6 @@ public class Web3jService {
     }
 
     public Integer vendingStockRefill(int amount) throws IOException, ExecutionException, InterruptedException, CipherException {
-
-
         BigInteger am = BigInteger.valueOf(amount);
         TransactionReceipt transactionReceipt = vendingContract.stockUp(new Int256(am)).get();
         return getStock();
@@ -138,17 +138,16 @@ public class Web3jService {
 
 
             BigInteger duration = BigInteger.valueOf(3600);//one hour
-            BigInteger ether = Convert.toWei("2.0", Convert.Unit.ETHER).toBigInteger();
+            //maximum wei meegeven
+            //todo;op basis van de wei prijs + gasprice * gaslimit de juiste hoeveelheid ether meegeven.
+            BigInteger ether = Convert.toWei("1.0", Convert.Unit.ETHER).toBigInteger();
 
 
-            //todo: check first if the accounts are locked
             //unlock accounts
             //PersonalUnlockAccount cola = parity.personalUnlockAccount("0x1c6B88A198a06868D9fAB6e54056F04195CfCe8C", "cola", duration).sendAsync().get();
-            PersonalUnlockAccount ordina = parity.personalUnlockAccount(currentwalletID,passwordWallet, duration).send();
+            PersonalUnlockAccount currentacc = parity.personalUnlockAccount(currentwalletID,passwordWallet, duration).send();
 
-            //PersonalUnlockAccount betaler = parity.personalUnlockAccount("0x08796f22807D8aE6d3B5C4427d84FC49E9551f24", "betaler", duration).sendAsync().get();
-
-            if (ordina.accountUnlocked()) {
+            if (currentacc.accountUnlocked()) {
 
                 EthGetTransactionCount ethGetTransactionCount = web3.ethGetTransactionCount(currentwalletID, DefaultBlockParameterName.LATEST).sendAsync().get();
                 BigInteger nonce = ethGetTransactionCount.getTransactionCount();
