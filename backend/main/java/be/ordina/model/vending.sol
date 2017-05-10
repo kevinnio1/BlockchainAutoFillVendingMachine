@@ -77,7 +77,7 @@ contract vendingMachine {
         
     }
     
-    function stockUp(int amount) onlyOwner() payable returns (int) {
+    function stockUp(int amount) restrictAccessTo(admins) payable returns (int) {
         if(amount<=0 && stock + amount > 50) throw;
         if(!supplier.send(uint256(amount) * 10 finney)) throw;
         stock += amount;
