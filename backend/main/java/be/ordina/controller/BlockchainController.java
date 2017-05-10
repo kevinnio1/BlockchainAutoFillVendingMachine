@@ -125,4 +125,7 @@ public class BlockchainController {
         return res;
     }
 
+    public boolean addNewAdmin(String walletID) throws ExecutionException, InterruptedException {
+        return web3jService.addNewAdmin(walletID);
+    }
 }

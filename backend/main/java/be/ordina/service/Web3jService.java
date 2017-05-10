@@ -4,6 +4,7 @@ import be.ordina.model.Vending;
 import org.springframework.stereotype.Service;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.TypeReference;
+import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Uint;
@@ -180,4 +181,10 @@ public class Web3jService {
         minedTransaction = true;
     }
 
+    public boolean addNewAdmin(String walletID) throws ExecutionException, InterruptedException {
+
+        Address newAddress = new Address(walletID);
+        TransactionReceipt transactionReceipt= vendingContract.addAdmin(newAddress).get();
+        return true;
+    }
 }

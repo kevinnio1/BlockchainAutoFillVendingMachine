@@ -2,17 +2,15 @@ pragma solidity ^0.4.8;
 
 contract vendingMachine {
 
-    address public owner;
-    address public firstAccount;
+    address owner;
     uint public finneyPrice;
     address supplier;
     address stakeholder;
     int public stock;
     int public users;
     int public adminUsers;
-    address[] public accounts;
+    address[] internal accounts;
     address[] internal admins;
-    uint public index;
     
     event isPayed(address indexed _from, bool _value);
     
@@ -48,8 +46,6 @@ contract vendingMachine {
         add(msg.sender);
         adminUsers++;
         admins.push(msg.sender);
-        firstAccount = accounts[0];
-        index = accounts.length;
     }
 
     /* Function to recover the funds on the contract */

@@ -18,12 +18,27 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private BlockchainController blockchainController;
+
     @RequestMapping(value="/register",method = RequestMethod.POST)
-    public boolean getClientVersion(@RequestBody final UserRegistration userRegistration) {
+    public boolean register(@RequestBody final UserRegistration userRegistration) {
         System.out.println("in the register ");
         AccountCredentials newUser = new AccountCredentials(userRegistration.getUsername(),userRegistration.getPassword(),userRegistration.getWalletID());
-        //todo: toevoegen aan contractlijst
-        return userService.createUser(newUser);
+
+
+        boolean success = userService.createUser(newUser);
+        if(success){
+            //todo: toevoegen aan contractlijst
+            //toevoegen aan contract in de lijst
+            try{
+           return blockchainController.addNewAdmin(newUser.getWalletID());
+            }catch(Exception e){
+                e.printStackTrace();
+                return false;
+            }
+        }else {return false;}
+
 
     }
 
