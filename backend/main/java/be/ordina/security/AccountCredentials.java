@@ -14,19 +14,31 @@ public class AccountCredentials {
     private String password;
     @JsonProperty("walletID")
     private String walletID;
+    @JsonProperty("isAdmin")
+    private boolean isAdmin;
 
     public AccountCredentials(String username, String password, String walletID) {
         this.username = username;
         this.password = password;
         this.walletID = walletID;
+        this.isAdmin = true;
     }
     public AccountCredentials(String username, String password) {
         this.username = username;
         this.password = password;
+        this.isAdmin = true;
 
     }
 
     public AccountCredentials() {
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
     public AccountCredentials(String username) {

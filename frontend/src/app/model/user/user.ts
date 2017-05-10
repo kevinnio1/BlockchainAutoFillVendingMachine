@@ -4,7 +4,7 @@
 export interface User {
   username: string;
   password: string;
-  walletID:string;
+  walletID: string;
 }
 
 export interface PasswordChange {

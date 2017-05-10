@@ -22,6 +22,7 @@ public class UserController {
     public boolean getClientVersion(@RequestBody final UserRegistration userRegistration) {
         System.out.println("in the register ");
         AccountCredentials newUser = new AccountCredentials(userRegistration.getUsername(),userRegistration.getPassword(),userRegistration.getWalletID());
+        //todo: toevoegen aan contractlijst
         return userService.createUser(newUser);
 
     }
