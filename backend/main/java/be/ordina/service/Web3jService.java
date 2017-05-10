@@ -12,10 +12,13 @@ import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
+import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.*;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.protocol.parity.Parity;
 import org.web3j.protocol.parity.methods.response.PersonalUnlockAccount;
+import org.web3j.tx.Contract;
+import org.web3j.tx.ManagedTransaction;
 import org.web3j.utils.Convert;
 import rx.Subscription;
 
@@ -54,7 +57,7 @@ public class Web3jService {
         this.web3  = Web3j.build(new HttpService());
         this.parity = Parity.build(new HttpService());
         this.credentials  = WalletUtils.loadCredentials(BlockchainLocalSettings.VENDING_PASSWORD, BlockchainLocalSettings.WALLET_MACHINE);
-        vendingContract = Vending.load(BlockchainLocalSettings.VENDING_CONTRACT,web3,credentials,gasprice, gaslimit);
+        vendingContract = Vending.load(BlockchainLocalSettings.VENDING_CONTRACT,web3,credentials, ManagedTransaction.GAS_PRICE, Contract.GAS_LIMIT);
         subscribeToTransactionsandBlocks();
     }
 
@@ -151,7 +154,7 @@ public class Web3jService {
                 BigInteger nonce = ethGetTransactionCount.getTransactionCount();
                 Function function = new Function("pay", Arrays.<Type>asList(), Collections.<TypeReference<?>>emptyList());
                 String encodedFunction = FunctionEncoder.encode(function);
-                org.web3j.protocol.core.methods.request.Transaction transaction = org.web3j.protocol.core.methods.request.Transaction.createFunctionCallTransaction(currentwalletID, nonce, gasprice, gaslimit, BlockchainLocalSettings.VENDING_CONTRACT, ether, encodedFunction);
+                org.web3j.protocol.core.methods.request.Transaction transaction = org.web3j.protocol.core.methods.request.Transaction.createFunctionCallTransaction(currentwalletID, nonce, Transaction.DEFAULT_GAS, gaslimit, BlockchainLocalSettings.VENDING_CONTRACT, ether, encodedFunction);
                 //org.web3j.protocol.core.methods.response.EthSendTransaction transactionResponse = web3.ethSendTransaction(transaction).sendAsync().get();
                 org.web3j.protocol.core.methods.response.EthSendTransaction transactionResponse =parity.personalSignAndSendTransaction(transaction,passwordWallet).send();
                 final String transactionHash = transactionResponse.getTransactionHash();
