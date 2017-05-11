@@ -64,7 +64,7 @@ contract vendingMachine {
             throw;
         }
         
-        
+        if (stock != 50)
         if(!stakeholder.send(10 finney)) throw;
         stock--;
         if(stock == 10) stockUp(40);
