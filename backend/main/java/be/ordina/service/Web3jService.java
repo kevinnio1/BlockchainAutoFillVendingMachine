@@ -123,67 +123,33 @@ public class Web3jService {
     }
 
     public Integer vendingStockRefill(int amount,String currentwalletID, String passwordWallet) throws IOException, ExecutionException, InterruptedException, CipherException {
-
         return doEthFunction(currentwalletID,passwordWallet,"stockup",amount);
-
-       /* BigInteger am = BigInteger.valueOf(amount);
-
-        //maximum wei meegeven
-        //todo;op basis van de wei prijs + gasprice * gaslimit de juiste hoeveelheid ether meegeven.
-        BigInteger ether = Convert.toWei("1", Convert.Unit.ETHER).toBigInteger();
-
-        //unlock accounts
-        PersonalUnlockAccount currentacc = parity.personalUnlockAccount(currentwalletID,passwordWallet, duration).send();
-
-        if (currentacc.accountUnlocked()) {
-
-            EthGetTransactionCount ethGetTransactionCount = web3.ethGetTransactionCount(currentwalletID, DefaultBlockParameterName.LATEST).sendAsync().get();
-            BigInteger nonce = ethGetTransactionCount.getTransactionCount();
-            Function function = new Function("stockUp", Arrays.<Type>asList(new Int256(am)), Collections.<TypeReference<?>>emptyList());
-            String encodedFunction = FunctionEncoder.encode(function);
-            org.web3j.protocol.core.methods.request.Transaction transaction = org.web3j.protocol.core.methods.request.Transaction.createFunctionCallTransaction(currentwalletID, nonce, Transaction.DEFAULT_GAS, gaslimit, BlockchainLocalSettings.VENDING_CONTRACT, ether, encodedFunction);
-            //org.web3j.protocol.core.methods.response.EthSendTransaction transactionResponse = web3.ethSendTransaction(transaction).sendAsync().get();
-            org.web3j.protocol.core.methods.response.EthSendTransaction transactionResponse =parity.personalSignAndSendTransaction(transaction,passwordWallet).send();
-            final String transactionHash = transactionResponse.getTransactionHash();
-            if (transactionHash == null) {
-                System.out.println(transactionResponse.getError().getMessage());
-                return getStock();
-            }
-            EthGetTransactionReceipt transactionReceipt = null;
-            //todo: indien niet toegevoegd door error moet deze niet wachten op de transactionreceipt. Dus een timeout hierop plaatsen?
-            do {
-                transactionReceipt = web3.ethGetTransactionReceipt(transactionHash).sendAsync().get();
-            } while (!transactionReceipt.getTransactionReceipt().isPresent());
-            return getStock();
-        }else{
-            System.out.println("account is locked");
-            return getStock();
-        }*/
-
-
-
-
     }
+
 
     public int doEthFunction(String currentwalletID,String passwordWallet, String func,int amountStockup) throws InterruptedException, ExecutionException, CipherException, IOException {
         Function function=null;
+        BigInteger ether = Convert.toWei("0.3", Convert.Unit.ETHER).toBigInteger();;
         BigInteger am = BigInteger.valueOf(amountStockup);
         int stock = getStock();
 
         if(func.equalsIgnoreCase("pay")){
             if(stock==0) return 0;
-            //todo: check current wallet enough credit
-            //todo: juiste ether amount meegeven
+
             function = new Function("pay", Arrays.<Type>asList(), Collections.<TypeReference<?>>emptyList());
+            //todo: get price from contract instead of hardcoded
+            ether = Convert.toWei("0.02", Convert.Unit.ETHER).toBigInteger().add(Transaction.DEFAULT_GAS.multiply(gaslimit));
+            System.out.println("Ether dat je meegeeft bij betalen blikje: " + Convert.fromWei(ether.toString() , Convert.Unit.ETHER) );
+            //todo: check current wallet enough credit
 
         }else if(func.equalsIgnoreCase("stockup")) {
             //no stock check needed because the blockchain smart contract has a max value + not enogh coins to buy more
             function = new Function("stockUp", Arrays.<Type>asList(new Int256(am)), Collections.<TypeReference<?>>emptyList());
+            ether = Convert.toWei("0.0", Convert.Unit.ETHER).toBigInteger();
         }
-
         //maximum wei meegeven
         //todo;op basis van de wei prijs + gasprice * gaslimit de juiste hoeveelheid ether meegeven.
-        BigInteger ether = Convert.toWei("1.0", Convert.Unit.ETHER).toBigInteger();
+
 
 
         //unlock accounts
@@ -193,10 +159,8 @@ public class Web3jService {
 
             EthGetTransactionCount ethGetTransactionCount = web3.ethGetTransactionCount(currentwalletID, DefaultBlockParameterName.LATEST).sendAsync().get();
             BigInteger nonce = ethGetTransactionCount.getTransactionCount();
-            //Function function = new Function("pay", Arrays.<Type>asList(), Collections.<TypeReference<?>>emptyList());
             String encodedFunction = FunctionEncoder.encode(function);
             org.web3j.protocol.core.methods.request.Transaction transaction = org.web3j.protocol.core.methods.request.Transaction.createFunctionCallTransaction(currentwalletID, nonce, Transaction.DEFAULT_GAS, gaslimit, BlockchainLocalSettings.VENDING_CONTRACT, ether, encodedFunction);
-            //org.web3j.protocol.core.methods.response.EthSendTransaction transactionResponse = web3.ethSendTransaction(transaction).sendAsync().get();
             org.web3j.protocol.core.methods.response.EthSendTransaction transactionResponse =parity.personalSignAndSendTransaction(transaction,passwordWallet).send();
             final String transactionHash = transactionResponse.getTransactionHash();
             if (transactionHash == null) {
@@ -213,61 +177,13 @@ public class Web3jService {
             System.out.println("account is locked");
             return getStock();
         }
-
-
-
 
 
     }
 
 
     public int buyOne(String currentwalletID,String passwordWallet) throws IOException, CipherException, ExecutionException, InterruptedException {
-
-
-
         return doEthFunction(currentwalletID,passwordWallet,"pay",0);
-
-
-
-        /*if (getStock() == 0) {
-            return 0;
-        } else {
-
-            //maximum wei meegeven
-            //todo;op basis van de wei prijs + gasprice * gaslimit de juiste hoeveelheid ether meegeven.
-            BigInteger ether = Convert.toWei("1.0", Convert.Unit.ETHER).toBigInteger();
-
-
-            //unlock accounts
-            //PersonalUnlockAccount cola = parity.personalUnlockAccount("0x1c6B88A198a06868D9fAB6e54056F04195CfCe8C", "cola", duration).sendAsync().get();
-            PersonalUnlockAccount currentacc = parity.personalUnlockAccount(currentwalletID,passwordWallet, duration).send();
-
-            if (currentacc.accountUnlocked()) {
-
-                EthGetTransactionCount ethGetTransactionCount = web3.ethGetTransactionCount(currentwalletID, DefaultBlockParameterName.LATEST).sendAsync().get();
-                BigInteger nonce = ethGetTransactionCount.getTransactionCount();
-                Function function = new Function("pay", Arrays.<Type>asList(), Collections.<TypeReference<?>>emptyList());
-                String encodedFunction = FunctionEncoder.encode(function);
-                org.web3j.protocol.core.methods.request.Transaction transaction = org.web3j.protocol.core.methods.request.Transaction.createFunctionCallTransaction(currentwalletID, nonce, Transaction.DEFAULT_GAS, gaslimit, BlockchainLocalSettings.VENDING_CONTRACT, ether, encodedFunction);
-                //org.web3j.protocol.core.methods.response.EthSendTransaction transactionResponse = web3.ethSendTransaction(transaction).sendAsync().get();
-                org.web3j.protocol.core.methods.response.EthSendTransaction transactionResponse =parity.personalSignAndSendTransaction(transaction,passwordWallet).send();
-                final String transactionHash = transactionResponse.getTransactionHash();
-                if (transactionHash == null) {
-                    System.out.println(transactionResponse.getError().getMessage());
-                    return getStock();
-                }
-                EthGetTransactionReceipt transactionReceipt = null;
-                //todo: indien niet toegevoegd door error moet deze niet wachten op de transactionreceipt. Dus een timeout hierop plaatsen?
-                do {
-                    transactionReceipt = web3.ethGetTransactionReceipt(transactionHash).sendAsync().get();
-                } while (!transactionReceipt.getTransactionReceipt().isPresent());
-                return getStock();
-            }else{
-                System.out.println("account is locked");
-                return getStock();
-            }
-
-        }*/
     }
 
     public boolean addNewAdmin(String walletID) throws ExecutionException, InterruptedException {
