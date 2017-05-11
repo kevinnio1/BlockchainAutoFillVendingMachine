@@ -126,7 +126,6 @@ public class Web3jService {
     }
 
     public Integer vendingStockRefill(int amount,String currentwalletID, String passwordWallet) throws IOException, ExecutionException, InterruptedException, CipherException {
-        //todo: refill with transaction to see if is admin or normal user
 
         BigInteger am = BigInteger.valueOf(amount);
         //TransactionReceipt transactionReceipt = vendingContract.stockUp(new Int256(am)).get();
