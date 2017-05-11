@@ -1,16 +1,15 @@
 <div *ngIf="isAdminPeer">
-<h1>PEER COMPONENT</h1>
-<div *ngFor="let a of accounts; let i = index">Account: {{i+1}}: {{a}} </div>
+<h2>PEER COMPONENT</h2>
+  <div class="ui segment">
+    <div class="ui segment">
+      <sm-list class="divided">
+        <sm-item *ngFor="let a of accounts; let i = index"  >Account {{i+1}}: {{a}}
+        </sm-item>
+      </sm-list>
+  </div>
+</div>
 </div>
 
-
-  <h2>Peer Component</h2>
-  <div class="ui segment">
-    <sm-list class="divided">
-      <sm-item *ngFor="let a of accounts; let i = index"  >Account {{i+1}}: {{a}}
-      </sm-item>
-    </sm-list>
-  </div>
 
 
 
