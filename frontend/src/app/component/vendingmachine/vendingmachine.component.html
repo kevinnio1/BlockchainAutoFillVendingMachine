@@ -1,21 +1,21 @@
+<div class="dimmable">
+  <sm-loader [complete]="!loadingRefill" class="inverted" text="Waiting till block is mined..."></sm-loader>
+<h1>Vending Component</h1>
+Current stock: {{stock}} <br />
 
 
-
-    <div class="dimmable">
-    <sm-loader [complete]="!loadingRefill" class="inverted" text="Loading..."></sm-loader>
-  <h2>Vending Component</h2>
-      <p><ngb-progressbar  type="success" [value]="stock" [max]="50">{{stock}} cans</ngb-progressbar></p>
-   <br />
-  <form class="ui form" #refillForm="ngForm" (ngSubmit)="submitRefill()">
-    <div id="enterAmount" class="ui input">
-      <input type="number" label="amount" name="amount" id="amount" [(ngModel)]="amount">
-    </div>
-    <div id="btnRefill"><sm-button type="submit" class="primary">Refill</sm-button></div>
-  </form>
+  <div *ngIf="isAdminVending">
+<form class="ui form" #refillForm="ngForm" (ngSubmit)="submitRefill()">
+  <div id="enterAmount" class="ui input">
+    <input type="number" label="amount" name="amount" id="amount" [(ngModel)]="amount">
   </div>
+  <div id="btnRefill"><sm-button type="submit" class="primary">Refill</sm-button></div>
+</form>
+</div>
+</div>
 
 <div>
-  <sm-loader [complete]="!loadingBuyOne" class="inverted" text="Loading..."></sm-loader>
+  <sm-loader [complete]="!loadingBuyOne" class="inverted" text="Waiting till block is mined. can take a while..."></sm-loader>
   <form class="ui form" #refillForm="ngForm" (ngSubmit)="submitBuyOne()">
     <div id="btnBuy"><sm-button type="submit" class="primary">Buy One</sm-button></div>
   </form>

@@ -1,0 +1,34 @@
+<div class="ui middle aligned center aligned grid">
+  <div class="column">
+    <h2 class="ui teal image header">
+      <div class="content">
+        Log-in to your account
+      </div>
+    </h2>
+    <form class="ui large form" [formGroup]="loginForm" (ngSubmit)="submitLogin(loginForm.value, loginForm.valid)">
+      <div class="ui stacked segment">
+        <sm-loader [complete]="!loading" class="inverted" text="Loading..."></sm-loader>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            <sm-input id="username" label="Username" type="username"  [control]="loginForm.controls.username" placeholder="Enter username..."></sm-input>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            <sm-input id="password" label="Password" type="password" [control]="loginForm.controls.password" placeholder="Enter password..."></sm-input>
+          </div>
+        </div>
+        <sm-button id="submit" type="submit" [disabled]="!loginForm.valid" class="ui fluid large teal">Login</sm-button>
+      </div>
+
+      <div class="ui error message" [style.display] = "error==undefined? 'none' : 'block'">{{error}}</div>
+
+    </form>
+
+    <div class="ui message">
+      New to us? <a href="/#/register">Sign Up</a>
+    </div>
+  </div>
+</div>
