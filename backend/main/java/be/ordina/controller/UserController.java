@@ -41,6 +41,11 @@ public class UserController {
 
     }
 
+    @RequestMapping(value = "/isAdmin",method = RequestMethod.GET)
+    public boolean isCurrentUserAdmin(){
+        return userService.getCurrentUser().isAdmin();
+    }
+
     public String getWalletIDcurrentUser(){
         return userService.getCurrentUser().getWalletID();
     }

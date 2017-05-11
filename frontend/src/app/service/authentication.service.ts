@@ -4,7 +4,7 @@ import "rxjs/add/observable/of";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/delay";
 import {Http, RequestOptions,Headers, Response} from "@angular/http";
-import { CookieUtils} from "../util/utils";
+import {CookieUtils, SubscribeResultHandler} from "../util/utils";
 import {combineAll} from "rxjs/operator/combineAll";
 
 @Injectable()
@@ -13,7 +13,7 @@ export class AuthenticationService {
   private currentUsername: string;
   //private TOKEN_IDENTIFIER = "X-AUTH-TOKEN";
   private TOKEN_IDENTIFIER = "Authorization";
-  constructor(private http: Http, private cookieUtils: CookieUtils) {
+  constructor(private http: Http, private cookieUtils: CookieUtils, private subscribeResultHandler: SubscribeResultHandler) {
     this.checkAuthentication();
   }
 
@@ -47,6 +47,22 @@ export class AuthenticationService {
   getToken(){
     return this.cookieUtils.getCookie(this.TOKEN_IDENTIFIER);
   }
+
+  public makeHeaderWithToken():RequestOptions{
+
+    //let headers = new Headers({ 'X-AUTH-TOKEN': this.cookieUtils.getCookie('X-AUTH-TOKEN')});
+    let options = new RequestOptions();
+    options.headers = new Headers({ 'Authorization': this.cookieUtils.getCookie('Authorization'),'Content-Type' :'application/json','X-Requested-With': 'XMLHttpRequest'});
+    return options;
+  }
+
+  isAdmin(): Observable<boolean>{
+    return this.http.get('/api/users/isAdmin',this.makeHeaderWithToken())
+      .map(this.subscribeResultHandler.handleResponse)
+      .catch(this.subscribeResultHandler.handleError);
+  }
+
+
 
   register(username: string, password: string, walletID:string): Observable<any> {
     //todo: registreren uitwerken

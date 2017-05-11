@@ -9,11 +9,33 @@ import {Router} from "@angular/router";
   templateUrl: 'dashboard.component.html',
   styleUrls: ['dashboard.component.css']
 })
-export class DashboardComponent{
+export class DashboardComponent implements OnInit{
+  public isAdmin:boolean=false;
   constructor(private authService: AuthenticationService, private router: Router) { }
+
+
+
+  ngOnInit()
+  {
+    this.authService.isAdmin().subscribe(
+      result => {
+        if(result == true){
+          this.isAdmin = true;
+        }else {
+          this.isAdmin = false;
+        }
+      },
+      error => {
+        console.log(error as string);
+      }
+    );
+  }
+
 
 logout(){
   this.authService.logout();
   this.router.navigate(['/login']);
 }
+
+
 }

@@ -2,7 +2,7 @@
  * Created by KeLe on 28/04/2017.
  */
 
-import {Component, OnInit} from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
 import {Http} from "@angular/http";
 import {CookieUtils, SubscribeResultHandler} from "../../util/utils";
 import {BlockchainService} from "../../service/blockchain.service";
@@ -16,6 +16,7 @@ import {BlockchainService} from "../../service/blockchain.service";
 
 export class VendingmachineComponent implements OnInit{
   private stock:number=0;
+  @Input() isAdminVending:boolean;
   private amount:number;
   private loadingRefill:boolean = true;
   private loadingBuyOne:boolean = false;

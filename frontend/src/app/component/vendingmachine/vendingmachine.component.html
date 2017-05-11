@@ -2,12 +2,16 @@
   <sm-loader [complete]="!loadingRefill" class="inverted" text="Waiting till block is mined..."></sm-loader>
 <h1>Vending Component</h1>
 Current stock: {{stock}} <br />
+
+
+  <div *ngIf="isAdminVending">
 <form class="ui form" #refillForm="ngForm" (ngSubmit)="submitRefill()">
   <div id="enterAmount" class="ui input">
     <input type="number" label="amount" name="amount" id="amount" [(ngModel)]="amount">
   </div>
   <div id="btnRefill"><sm-button type="submit" class="primary">Refill</sm-button></div>
 </form>
+</div>
 </div>
 
 <div>
