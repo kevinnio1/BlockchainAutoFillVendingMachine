@@ -50,6 +50,11 @@ public class UserController {
         return userService.getCurrentUser().getPassword();
     }
 
+    public boolean currentUserIsAdmin() {
+
+        return userService.getCurrentUser().isAdmin();
+    }
+
 
     public static class UserRegistration {
         String username;

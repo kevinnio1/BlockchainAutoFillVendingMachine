@@ -88,7 +88,15 @@ public class BlockchainController {
         int res = 0;
 
         try {
-            res = web3jService.vendingStockRefill( Integer.parseInt(amount));
+            //check if it is an admin
+            boolean isAdmin = userController.currentUserIsAdmin();
+            if(isAdmin){
+            String currentwalletID = userController.getWalletIDcurrentUser();
+            String passwordWallet = userController.getWalletPassword();
+            res = web3jService.vendingStockRefill( Integer.parseInt(amount),currentwalletID,passwordWallet);
+            }else {
+                return getSTock();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
