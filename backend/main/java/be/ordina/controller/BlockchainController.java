@@ -1,6 +1,7 @@
 package be.ordina.controller;
 
-import be.ordina.service.web3jService;
+import be.ordina.security.AccountCredentials;
+import be.ordina.service.Web3jService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.web3j.crypto.CipherException;
@@ -16,13 +17,13 @@ import java.util.concurrent.ExecutionException;
 @CrossOrigin
 @RestController
 @RequestMapping(value = RequestMappings.BLOCKCHAIN)
-public class blockchainController {
-
-
-    //private final web3jService web3jService;
+public class BlockchainController {
 
     @Autowired
-    private web3jService web3jService;
+    private UserController userController;
+
+    @Autowired
+    private Web3jService web3jService;
 
     @RequestMapping(value="/getClientVersion",method = RequestMethod.GET)
     public String getClientVersion() {
@@ -87,7 +88,15 @@ public class blockchainController {
         int res = 0;
 
         try {
-            res = web3jService.vendingStockRefill( Integer.parseInt(amount));
+            //check if it is an admin
+            boolean isAdmin = userController.currentUserIsAdmin();
+            if(isAdmin){
+            String currentwalletID = userController.getWalletIDcurrentUser();
+            String passwordWallet = userController.getWalletPassword();
+            res = web3jService.vendingStockRefill( Integer.parseInt(amount),currentwalletID,passwordWallet);
+            }else {
+                return getSTock();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -106,7 +115,10 @@ public class blockchainController {
     public int buyOne() {
         int res = 0;
         try {
-            res = web3jService.buyOne();
+            //res = web3jService.buyOne();
+            String currentwalletID = userController.getWalletIDcurrentUser();
+            String passwordWallet = userController.getWalletPassword();
+            res = web3jService.buyOne(currentwalletID,passwordWallet);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -121,4 +133,12 @@ public class blockchainController {
         return res;
     }
 
+    public boolean addNewAdmin(String walletID) throws ExecutionException, InterruptedException {
+        return web3jService.addNewAdmin(walletID);
+    }
+
+    public boolean addNewNormalUser(String walletID) throws ExecutionException, InterruptedException {
+            return web3jService.addNewUser(walletID);
+
+    }
 }

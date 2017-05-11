@@ -4,21 +4,24 @@
 
 import {Component, OnInit} from "@angular/core";
 import {Http} from "@angular/http";
+import {CookieUtils} from "../../util/utils";
+import {BlockchainService} from "../../service/blockchain.service";
 
 @Component({
   selector: 'peer-component',
   templateUrl: './peer.component.html',
-  styleUrls: ['./peer.component.css']
+  styleUrls: ['./peer.component.css'],
+  providers: [CookieUtils]
 })
 
 export class PeerComponent implements OnInit{
   private accounts:String[]=[];
-  constructor(private http:Http){}
+  constructor(private http:Http, private blockchainService: BlockchainService){}
 
 
 
   ngOnInit(){
-    this.http.get("/api/blockchain/getAccounts").map(result => result.json()).subscribe(
+    this.blockchainService.getAccounts().subscribe(
       result => {
         //console.log(result);
         this.accounts = result;
