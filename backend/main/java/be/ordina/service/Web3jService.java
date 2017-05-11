@@ -26,6 +26,7 @@ import org.web3j.utils.Convert;
 import rx.Subscription;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -139,23 +140,24 @@ public class Web3jService {
             function = new Function("pay", Arrays.<Type>asList(), Collections.<TypeReference<?>>emptyList());
             //todo: get price from contract instead of hardcoded
             ether = Convert.toWei("0.02", Convert.Unit.ETHER).toBigInteger().add(Transaction.DEFAULT_GAS.multiply(gaslimit));
-            System.out.println("Ether dat je meegeeft bij betalen blikje: " + Convert.fromWei(ether.toString() , Convert.Unit.ETHER) );
-            //todo: check current wallet enough credit
+
+            BigDecimal accountBalance = Convert.fromWei(parity.ethGetBalance(currentwalletID,DefaultBlockParameterName.LATEST).send().getBalance().toString() , Convert.Unit.ETHER);
+
+            //check if there is enough money in the wallet. Transaction would automaticly be discarded from the chain, but now we don't need to wait till transaction is verified.
+            BigDecimal ethersend = new BigDecimal(ether);
+            if(ethersend.compareTo(accountBalance)< 0 ){return getStock();}
 
         }else if(func.equalsIgnoreCase("stockup")) {
             //no stock check needed because the blockchain smart contract has a max value + not enogh coins to buy more
             function = new Function("stockUp", Arrays.<Type>asList(new Int256(am)), Collections.<TypeReference<?>>emptyList());
             ether = Convert.toWei("0.0", Convert.Unit.ETHER).toBigInteger();
         }
-        //maximum wei meegeven
-        //todo;op basis van de wei prijs + gasprice * gaslimit de juiste hoeveelheid ether meegeven.
-
-
 
         //unlock accounts
         PersonalUnlockAccount currentacc = parity.personalUnlockAccount(currentwalletID,passwordWallet, duration).send();
 
         if (currentacc.accountUnlocked()) {
+
 
             EthGetTransactionCount ethGetTransactionCount = web3.ethGetTransactionCount(currentwalletID, DefaultBlockParameterName.LATEST).sendAsync().get();
             BigInteger nonce = ethGetTransactionCount.getTransactionCount();
