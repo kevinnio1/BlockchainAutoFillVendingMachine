@@ -21,7 +21,7 @@ public class UserService {
 
         try {
 
-        mongoRespository.save(user);
+            mongoRespository.save(user);
             System.out.println("user saved");
         return true;
         }catch(Exception e){

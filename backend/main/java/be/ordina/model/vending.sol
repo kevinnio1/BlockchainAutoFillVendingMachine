@@ -15,8 +15,8 @@ contract vendingMachine {
     event isPayed(address indexed _from, bool _value);
     
     modifier restrictAccessTo(address[] _collection){
-        for(uint i = 0; i < accounts.length; i++) {
-            if (accounts[i] == msg.sender) {
+        for(uint i = 0; i < _collection.length; i++) {
+            if (_collection[i] == msg.sender) {
                 _;
                 return;
             }
@@ -24,25 +24,25 @@ contract vendingMachine {
         if(msg.value > 0){
             if(!msg.sender.send(msg.value)) throw;
         }
-    
+
     }
-    
+
     modifier onlyOwner(){
         if(owner == msg.sender){
             _;
         }
         if(!msg.sender.send(msg.value)) throw;
     }
-    
-    
+
+
 
     /* this function is executed at initialization and sets the owner of the contract */
-    function vendingMachine() { 
+    function vendingMachine() {
         owner = msg.sender;
         stock = 50;
         finneyPrice = 20 finney / 1 finney;
-        supplier = 0xc7764818C6276AE6E145db9143bbA535c148d6C3;
-        stakeholder = 0xDEF240271e9E6b79b06f3a7C4A144D3874e512d2;
+        supplier = 0x803E3a0C2Bb93b5555F3313A55F6B0A51d52Ff75;
+        stakeholder = 0xdf7463670a2b873263CdE76b2ab235dD0fAF2515;
         add(msg.sender);
         adminUsers++;
         admins.push(msg.sender);
@@ -50,9 +50,9 @@ contract vendingMachine {
 
     /* Function to recover the funds on the contract */
     function kill() onlyOwner()  {
-        selfdestruct(owner); 
+        selfdestruct(owner);
     }
-    
+
     function pay() payable restrictAccessTo(accounts) returns (bool) {
         address client = msg.sender;
         if(stock>0){
@@ -63,8 +63,8 @@ contract vendingMachine {
             isPayed(msg.sender,false);
             throw;
         }
-        
-        
+
+
         if(!stakeholder.send(10 finney)) throw;
         stock--;
         if(stock == 10) stockUp(40);
@@ -73,15 +73,17 @@ contract vendingMachine {
         }else{
             isPayed(msg.sender,false);
             throw;
-        } 
-        
+        }
+
     }
-    
-    function stockUp(int amount) onlyOwner() payable returns (int) {
+
+    function stockUp(int amount) restrictAccessTo(admins) payable returns (int) {
         if(amount<=0 && stock + amount > 50) throw;
         if(!supplier.send(uint256(amount) * 10 finney)) throw;
         stock += amount;
-        
+        if(msg.value > 0){
+            if(!msg.sender.send(msg.value)) throw;
+        }
         return stock;
         
     }
