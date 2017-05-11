@@ -1,6 +1,5 @@
 package be.ordina.controller;
 
-import be.ordina.security.AccountCredentials;
 import be.ordina.service.Web3jService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

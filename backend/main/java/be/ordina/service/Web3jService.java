@@ -40,9 +40,7 @@ import java.util.concurrent.ExecutionException;
 
 
 @Service
-public class web3jService {
-    private Web3j web3;
-
+public class Web3jService {
 
     private Web3j web3; //defaults to http://localhost:8545
     private Credentials credentials;
@@ -52,7 +50,7 @@ public class web3jService {
     Parity parity;
     boolean minedTransaction = false;
 
-    public web3jService() throws IOException, CipherException {
+    public Web3jService() throws IOException, CipherException {
         this.web3  = Web3j.build(new HttpService());
         this.parity = Parity.build(new HttpService());
         this.credentials  = WalletUtils.loadCredentials(BlockchainLocalSettings.VENDING_PASSWORD, BlockchainLocalSettings.WALLET_MACHINE);
