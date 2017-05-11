@@ -48,7 +48,8 @@ public class BlockchainController {
     public List<String> getAccounts() {
         List<String> res = new ArrayList<>();
         try {
-            res = web3jService.getAccounts();
+            if(userController.currentUserIsAdmin()){
+            res = web3jService.getAccounts();}else {return new ArrayList<>();}
 
             System.out.println("accounts : " + res);
             return res;
