@@ -3,8 +3,12 @@
   <sm-loader [complete]="!loadingRefill" class="inverted" text="Waiting till block is mined..."></sm-loader>
 <h1>Vending Component</h1>
 
-
-  <div *ngIf="isAdminVending">
+<div class="ui segment">
+  <div class="ui segment">
+    <sm-list class="divided">
+      <div class="adminDiv" *ngIf="isAdminVending">
+      <sm-item>
+<div class="refill inlineVending">
 <form class="ui form" #refillForm="ngForm" (ngSubmit)="submitRefill()">
   <div id="enterAmount" class="ui input">
     <input type="number" label="amount" name="amount" id="amount" [(ngModel)]="amount">
@@ -12,18 +16,47 @@
   <div id="btnRefill"><sm-button type="submit" class="primary">Refill</sm-button></div>
 </form>
 </div>
-</div>
+        <div class="setMinStock inlineVending">
+          <form class="ui form" #refillForm="ngForm">
+            <div id="setMinStock" class="ui input" >
+              <input type="number" label="amountMinStock" name="amountMinStock" id="amountMinStock">
+            </div>
+            <div id="btnSetMinStock" style="display: inline-block;"><sm-button type="submit" class="primary">Min Stock</sm-button></div>
+          </form>
+        </div>
 
+        <div class="setMaxStock inlineVending">
+          <form class="ui form" #refillForm="ngForm">
+            <div id="setMaxStock" class="ui input" >
+              <input type="number" label="amountMaxStock" name="amountMaxStock" id="amountMaxStock">
+            </div>
+            <div id="btnSetMaxStock" style="display: inline-block;"><sm-button type="submit" class="primary">Max Stock</sm-button></div>
+          </form>
+        </div>
+        <br />
+      </sm-item>
+      </div>
+      <sm-item>
 
   <br />
+
   <br />
+
   <progressbar-component [stockProgress]='stock' [maxStockProgress]='maxStock'></progressbar-component>
+      </sm-item>
   <br />
 
 <div>
   <sm-loader [complete]="!loadingBuyOne" class="inverted" text="Waiting till block is mined. can take a while..."></sm-loader>
-  <form class="ui form" #refillForm="ngForm" (ngSubmit)="submitBuyOne()">
-    <div id="btnBuy"><sm-button type="submit" class="primary">Buy One</sm-button></div>
+  <form class="ui form buyOne" #refillForm="ngForm" (ngSubmit)="submitBuyOne()">
+    <div id="btnBuy"><sm-button type="submit" class="buyOnebtn primary">Buy One</sm-button></div>
   </form>
+</div>
+
+    </sm-list>
+
+
+  </div>
+</div>
 </div>
 </div>
