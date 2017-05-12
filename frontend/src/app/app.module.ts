@@ -14,6 +14,7 @@ import {CookieUtils, SubscribeResultHandler} from "./util/utils";
 import {AuthenticationService} from "./service/authentication.service";
 import {DashboardComponent} from "./component/dashboard/dashboard.component"
 import {BlockchainService} from "./service/blockchain.service";
+import {ProgressbarComponent} from "./component/progressbar/progressbar.component"
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import {BlockchainService} from "./service/blockchain.service";
     PeerComponent,
     LoginComponent,
     RegisterComponent,
-    VendingmachineComponent
+    VendingmachineComponent,
+    ProgressbarComponent
   ],
   imports: [
     BrowserModule,

@@ -15,6 +15,12 @@ Current stock: {{stock}} <br />
 </div>
 </div>
 
+
+  <br />
+  <br />
+  <progressbar-component></progressbar-component>
+  <br />
+
 <div>
   <sm-loader [complete]="!loadingBuyOne" class="inverted" text="Waiting till block is mined. can take a while..."></sm-loader>
   <form class="ui form" #refillForm="ngForm" (ngSubmit)="submitBuyOne()">
