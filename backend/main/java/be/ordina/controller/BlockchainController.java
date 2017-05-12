@@ -146,4 +146,21 @@ public class BlockchainController {
             return web3jService.addNewUser(walletID);
 
     }
+
+
+    @RequestMapping(value="/getMaxStock",method = RequestMethod.GET)
+    public int getMaxStock() {
+        int res = 0;
+
+        try {
+            res = web3jService.getMaxStock();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+
 }

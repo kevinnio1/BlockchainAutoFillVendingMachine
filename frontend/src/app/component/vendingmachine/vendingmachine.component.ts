@@ -19,6 +19,7 @@ import {BlockchainService} from "../../service/blockchain.service";
 
 export class VendingmachineComponent implements OnInit{
   private stock:number=0;
+  private maxStock:number=20;
   @Input() isAdminVending:boolean;
   private amount:number;
   private loadingRefill:boolean = true;
@@ -61,9 +62,20 @@ export class VendingmachineComponent implements OnInit{
   ngOnInit(){
    this.blockchainService.getStock().subscribe(
       result => {
-        console.log("Resultaat get Stock: ");
-        console.log(result);
+        //console.log("Resultaat get Stock: ");
+        //console.log(result);
         this.stock = result;
+        //console.log(this.stock);
+        this.loadingRefill = false;
+
+      },
+      error =>  {console.log(error as string);}
+    );
+    this.blockchainService.getMaxStock().subscribe(
+      result => {
+        console.log("Resultaat get MAX Stock: ");
+        //console.log(result);
+        this.maxStock = result;
         //console.log(this.stock);
         this.loadingRefill = false;
 

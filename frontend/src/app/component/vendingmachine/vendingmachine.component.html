@@ -2,7 +2,6 @@
   <div class="dimmable">
   <sm-loader [complete]="!loadingRefill" class="inverted" text="Waiting till block is mined..."></sm-loader>
 <h1>Vending Component</h1>
-Current stock: {{stock}} <br />
 
 
   <div *ngIf="isAdminVending">
@@ -18,7 +17,7 @@ Current stock: {{stock}} <br />
 
   <br />
   <br />
-  <progressbar-component></progressbar-component>
+  <progressbar-component [stockProgress]='stock' [maxStockProgress]='maxStock'></progressbar-component>
   <br />
 
 <div>

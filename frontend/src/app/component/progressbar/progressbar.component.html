@@ -1,7 +1,7 @@
 
 <div class="progress">
   <div class="progress-bar{{type ? ' bg-' + success : ''}}{{true ? ' progress-bar-animated' : ''}}{{true ?
-    ' progress-bar-striped' : ''}}" role="progressbar" [style.width.%]="this.percentageValue">
-    <span >STOCK OF MACHINE</span><ng-content></ng-content>
+    ' progress-bar-striped' : ''}}" role="progressbar" [style.width.%]="getPercentageValue()">
+    <span >Current stock: {{stockProgress}}</span><ng-content></ng-content>
   </div>
 </div>

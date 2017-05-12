@@ -58,4 +58,9 @@ export class BlockchainService {
       .catch(this.subscribeResultHandler.handleError);
   }
 
+  public getMaxStock(): Observable<number> {
+    return this.http.get("/api/blockchain/getMaxStock", this.makeHeaderWithToken())
+      .map(this.subscribeResultHandler.handleResponse)
+      .catch(this.subscribeResultHandler.handleError);
+  }
 }

@@ -212,4 +212,10 @@ public class Web3jService {
         return (int)f;
 
     }
+
+    public int getMaxStock() throws ExecutionException, InterruptedException {
+        Type result = vendingContract.maxStock().get();
+        return Integer.parseInt(result.getValue().toString());
+
+    }
 }
