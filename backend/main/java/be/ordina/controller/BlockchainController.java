@@ -137,6 +137,11 @@ public class BlockchainController {
         return web3jService.addNewAdmin(walletID);
     }
 
+    @RequestMapping(value="/getPercentStock",method = RequestMethod.GET)
+    public int getPercentStock() throws InterruptedException, ExecutionException, CipherException, IOException {
+        return web3jService.getPercentStock();
+    }
+
     public boolean addNewNormalUser(String walletID) throws ExecutionException, InterruptedException {
             return web3jService.addNewUser(walletID);
 

@@ -33,6 +33,12 @@ export class BlockchainService {
       .catch(this.subscribeResultHandler.handleError);
   }
 
+  public getPercentValueOfStock():Observable<number>{
+    return this.http.get("/api/blockchain/getPercentStock", this.makeHeaderWithToken())
+      .map(this.subscribeResultHandler.handleResponse)
+      .catch(this.subscribeResultHandler.handleError);
+  }
+
   public getAccounts(): Observable<String[]> {
     return this.http.get("/api/blockchain/getAccounts", this.makeHeaderWithToken())
       .map(this.subscribeResultHandler.handleResponse)

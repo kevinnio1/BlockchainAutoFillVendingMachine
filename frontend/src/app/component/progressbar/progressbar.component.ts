@@ -15,13 +15,15 @@ import {BlockchainService} from "../../service/blockchain.service";
 })
 
 export class ProgressbarComponent implements OnInit{
-  constructor(){}
+  constructor(private blockchainService:BlockchainService){}
+  percentageValue:number = 0;
 
-  getPercentValue(){
-    return 80;
-  }
+
 
   ngOnInit(){
-
+    this.blockchainService.getPercentValueOfStock().subscribe(
+      result => {this.percentageValue = result;
+      }
+    );
   }
 }

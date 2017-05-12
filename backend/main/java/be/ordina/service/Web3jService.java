@@ -202,4 +202,14 @@ public class Web3jService {
         TransactionReceipt transactionReceipt= vendingContract.add(newAddress).get();
         return true;
     }
+
+    public int getPercentStock() throws InterruptedException, ExecutionException, CipherException, IOException {
+
+        Type result = vendingContract.maxStock().get();
+        int maxStock = Integer.parseInt(result.getValue().toString());
+        int currStock = getStock();
+        double f = ((double)currStock / (double)maxStock) * 100;
+        return (int)f;
+
+    }
 }

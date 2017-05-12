@@ -6,8 +6,8 @@ contract VendingMachine {
     uint public finneyPrice;
     address supplier;
     address stakeholder;
-    int maxStock;
-    int minStock;
+    int public maxStock;
+    int public minStock;
     int public stock;
     int public users;
     int public adminUsers;
@@ -52,8 +52,8 @@ contract VendingMachine {
         minStock = 10;
         stock = maxStock;
         finneyPrice = 20 finney / 1 finney;
-        supplier = 0x803E3a0C2Bb93b5555F3313A55F6B0A51d52Ff75;
-        stakeholder = 0xdf7463670a2b873263CdE76b2ab235dD0fAF2515;
+        supplier = 0xc7764818C6276AE6E145db9143bbA535c148d6C3;
+        stakeholder = 0xDEF240271e9E6b79b06f3a7C4A144D3874e512d2;
         add(msg.sender);
         adminUsers++;
         admins.push(msg.sender);
