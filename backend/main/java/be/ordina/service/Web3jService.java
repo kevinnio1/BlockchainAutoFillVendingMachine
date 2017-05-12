@@ -129,6 +129,9 @@ public class Web3jService {
 
 
     public int doEthFunction(String currentwalletID,String passwordWallet, String func,int amountStockup) throws InterruptedException, ExecutionException, CipherException, IOException {
+
+
+
         Function function=null;
         BigInteger ether = Convert.toWei("0.3", Convert.Unit.ETHER).toBigInteger();;
         BigInteger am = BigInteger.valueOf(amountStockup);
@@ -139,7 +142,7 @@ public class Web3jService {
 
             function = new Function("pay", Arrays.<Type>asList(), Collections.<TypeReference<?>>emptyList());
             //todo: get price from contract instead of hardcoded
-            ether = Convert.toWei("0.02", Convert.Unit.ETHER).toBigInteger().add(Transaction.DEFAULT_GAS.multiply(gaslimit));
+            ether = Convert.toWei(String.valueOf(getPriceFinneyToEther()), Convert.Unit.ETHER).toBigInteger().add(Transaction.DEFAULT_GAS.multiply(gaslimit));
 
             BigDecimal accountBalance = Convert.fromWei(parity.ethGetBalance(currentwalletID,DefaultBlockParameterName.LATEST).send().getBalance().toString() , Convert.Unit.ETHER);
 
@@ -217,5 +220,9 @@ public class Web3jService {
         Type result = vendingContract.maxStock().get();
         return Integer.parseInt(result.getValue().toString());
 
+    }
+    public double getPriceFinneyToEther() throws ExecutionException, InterruptedException, IOException, CipherException {
+        Type result = vendingContract.finneyPrice().get();
+        return Double.parseDouble(result.getValue().toString())/1000;
     }
 }
