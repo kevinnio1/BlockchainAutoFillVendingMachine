@@ -11,7 +11,9 @@ import {Router} from "@angular/router";
 })
 export class DashboardComponent implements OnInit{
   public isAdmin:boolean=false;
-  constructor(private authService: AuthenticationService, private router: Router) { }
+  public username:string;
+  constructor(private authService: AuthenticationService, private router: Router) {
+  }
 
 
 
@@ -24,7 +26,9 @@ export class DashboardComponent implements OnInit{
         }else {
           this.isAdmin = false;
         }
-      },
+        this.username= this.authService.getCurrentUsername();
+
+        },
       error => {
         console.log(error as string);
       }

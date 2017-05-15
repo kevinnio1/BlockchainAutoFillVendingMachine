@@ -84,6 +84,6 @@ export class AuthenticationService {
     // clear cookie to log user out
     this.authenticated = false;
     this.cookieUtils.deleteCookie(this.TOKEN_IDENTIFIER);
-    this.setLocalStorageUsername("");
+    //this.setLocalStorageUsername("");
   }
 }
