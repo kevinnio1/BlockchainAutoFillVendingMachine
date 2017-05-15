@@ -55,9 +55,6 @@ public class Web3jService {
     Subscription subscription2;
     BigInteger duration = BigInteger.valueOf(3600);//one hour
 
-
-
-
     public Web3jService() throws IOException, CipherException {
         this.web3  = Web3j.build(new HttpService());
         this.parity = Parity.build(new HttpService());
@@ -66,17 +63,12 @@ public class Web3jService {
         subscribeToTransactionsandBlocks();
     }
 
-
-
     public void unsubscribeTransAndBlocks(){
         System.out.println("unsubscribed");
         subscription.unsubscribe();
         subscription1.unsubscribe();
         subscription2.unsubscribe();
     }
-
-
-
 
     public void subscribeToTransactionsandBlocks(){
         System.out.println("started subscription");
@@ -127,7 +119,6 @@ public class Web3jService {
         return doEthFunction(currentwalletID,passwordWallet,"stockup",amount);
     }
 
-
     public int doEthFunction(String currentwalletID,String passwordWallet, String func,int amountStockup) throws InterruptedException, ExecutionException, CipherException, IOException {
 
         Function function=null;
@@ -153,9 +144,11 @@ public class Web3jService {
             function = new Function("stockUp", Arrays.<Type>asList(new Int256(am)), Collections.<TypeReference<?>>emptyList());
             ether = Convert.toWei("0.0", Convert.Unit.ETHER).toBigInteger();
         }else if (func.equalsIgnoreCase("setmin")){
+            //todo: check that min doesn't go over curerent stock
             function = new Function("setMinStock", Arrays.<Type>asList(new Int256(am)), Collections.<TypeReference<?>>emptyList());
             ether = Convert.toWei("0.0", Convert.Unit.ETHER).toBigInteger();
         }else if (func.equalsIgnoreCase("setmax")){
+            //todo: check that max doesn't fall under curerent stock
             function = new Function("setMaxStock", Arrays.<Type>asList(new Int256(am)), Collections.<TypeReference<?>>emptyList());
             ether = Convert.toWei("0.0", Convert.Unit.ETHER).toBigInteger();
         }
@@ -187,6 +180,7 @@ public class Web3jService {
 
 
     }
+
     public int doReturn(String function) throws InterruptedException, ExecutionException, CipherException, IOException {
         if(function.equalsIgnoreCase("pay")){
             return getStock();
@@ -220,8 +214,6 @@ public class Web3jService {
         return true;
     }
 
-
-
     public boolean addNewUser(String walletID) throws ExecutionException, InterruptedException {
         Address newAddress = new Address(walletID);
         //will wait till block is mined
@@ -238,7 +230,6 @@ public class Web3jService {
         return (int)f;
 
     }
-
 
     public double getPriceFinneyToEther() throws ExecutionException, InterruptedException, IOException, CipherException {
         Type result = vendingContract.finneyPrice().get();
