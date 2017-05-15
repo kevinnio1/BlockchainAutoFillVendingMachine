@@ -140,6 +140,7 @@ public class Web3jService {
             if(ethersend.compareTo(accountBalance)< 0 ){return getStock();}
 
         }else if(func.equalsIgnoreCase("stockup")) {
+            if((getStock()+amountStockup)>getMaxStock()){return doReturn(func);}
             //no stock check needed because the blockchain smart contract has a max value + not enogh coins to buy more
             function = new Function("stockUp", Arrays.<Type>asList(new Int256(am)), Collections.<TypeReference<?>>emptyList());
             ether = Convert.toWei("0.0", Convert.Unit.ETHER).toBigInteger();

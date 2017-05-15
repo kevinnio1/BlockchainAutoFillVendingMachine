@@ -11,7 +11,6 @@ import {combineAll} from "rxjs/operator/combineAll";
 export class AuthenticationService {
   public authenticated;
   private currentUsername: string;
-  //private TOKEN_IDENTIFIER = "X-AUTH-TOKEN";
   private TOKEN_IDENTIFIER = "Authorization";
   constructor(private http: Http, private cookieUtils: CookieUtils, private subscribeResultHandler: SubscribeResultHandler) {
     this.checkAuthentication();
@@ -49,8 +48,6 @@ export class AuthenticationService {
   }
 
   public makeHeaderWithToken():RequestOptions{
-
-    //let headers = new Headers({ 'X-AUTH-TOKEN': this.cookieUtils.getCookie('X-AUTH-TOKEN')});
     let options = new RequestOptions();
     options.headers = new Headers({ 'Authorization': this.cookieUtils.getCookie('Authorization'),'Content-Type' :'application/json','X-Requested-With': 'XMLHttpRequest'});
     return options;
@@ -65,7 +62,6 @@ export class AuthenticationService {
 
 
   register(username: string, password: string, walletID:string): Observable<any> {
-    //todo: registreren uitwerken
     let options = new RequestOptions();
     options.headers = new Headers({ 'Content-Type' :'application/json','X-Requested-With': 'XMLHttpRequest'});
     return this.http.post('/api/users/register', JSON.stringify({ "username": username, "password": password, "walletID" : walletID}),options);
