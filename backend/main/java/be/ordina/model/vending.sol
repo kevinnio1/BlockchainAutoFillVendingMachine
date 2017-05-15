@@ -1,5 +1,50 @@
 pragma solidity ^0.4.8;
 
+contract Supplier {
+
+    address owner;
+    uint public priceInFinney;
+
+    modifier onlyOwner(){
+        if(owner == msg.sender){
+            _;
+        }
+    }
+
+
+    /* this function is executed at initialization and sets the owner of the contract */
+    function Supplier() {
+        owner = msg.sender;
+        priceInFinney = 10;
+    }
+
+    function withdrawAll() onlyOwner(){
+        if(!owner.send(this.balance)) throw;
+    }
+
+    function withdraw(int amountInFinney) onlyOwner(){
+        if(!owner.send(uint256(amountInFinney * 1 finney))) throw;
+    }
+
+    /* Function to recover the funds on the contract */
+    function kill() onlyOwner()  {
+        selfdestruct(owner);
+    }
+
+
+
+    function setPrice(uint newPriceInFinney){
+        priceInFinney = newPriceInFinney;
+    }
+
+
+    function () payable {
+
+    }
+}
+
+
+
 contract VendingMachine {
 
     address owner;
@@ -11,15 +56,14 @@ contract VendingMachine {
     int public stock;
     int public users;
     int public adminUsers;
-    address public thisAdress;
-    address public sender;
     address[] internal accounts;
     address[] internal admins;
+    address[] internal stakeholders;
+    Supplier s ;
 
 
 
     modifier restrictAccessTo(address[] _collection){
-        sender = msg.sender;
         for(uint i = 0; i < _collection.length; i++) {
             if (_collection[i] == msg.sender) {
                 _;
@@ -52,12 +96,9 @@ contract VendingMachine {
         minStock = 10;
         stock = maxStock;
         finneyPrice = 20 finney / 1 finney;
-        supplier = 0xc7764818C6276AE6E145db9143bbA535c148d6C3;
-        stakeholder = 0xDEF240271e9E6b79b06f3a7C4A144D3874e512d2;
         add(msg.sender);
         adminUsers++;
         admins.push(msg.sender);
-        thisAdress = address(this);
     }
 
     /* Function to recover the funds on the contract */
@@ -82,7 +123,7 @@ contract VendingMachine {
             }
 
             if(stock != maxStock)
-            if(!stakeholder.send((((finneyPrice*50)/100) * 1 finney))) throw;
+            divideProfit();
 
             stock--;
 
@@ -96,13 +137,30 @@ contract VendingMachine {
 
     }
 
+    function addStakeholder(address stakeholder) onlyOwner(){
+        stakeholders.push(stakeholder);
+    }
+
+    function divideProfit() internal{
+        uint profit = ((finneyPrice-s.priceInFinney()) * 1 finney);
+        uint share = profit / stakeholders.length;
+
+        for(uint x = 0; x < stakeholders.length; x++) {
+            if(!stakeholders[x].send(share)) throw;
+        }
+    }
+
     function stockUp(int amount) restrictAccessTo(admins) payable returns (int) {
         if(amount<=0 && stock + amount > maxStock) throw;
-        if(!supplier.send(uint256(amount) * 10 finney)) throw;
+        if(!supplier.send(uint256(amount) * (s.priceInFinney() * 1 finney))) throw;
         stock += amount;
 
         return stock;
+    }
 
+    function setSupplier(address a) onlyOwner() {
+        supplier = a;
+        s = Supplier(supplier);
     }
 
     function setPrice(uint newPrice) onlyOwner() {
@@ -185,37 +243,6 @@ contract VendingMachine {
         }
         admins.push(admin);
         adminUsers++;
-    }
-
-
-    function () {
-        throw; // throw reverts state to before call
-    }
-}
-
-
-contract Supplier {
-
-    address owner;
-    uint public priceInFinney;
-
-    modifier onlyOwner(){
-        if(owner == msg.sender){
-            _;
-        }
-        if(!msg.sender.send(msg.value)) throw;
-    }
-
-
-    /* this function is executed at initialization and sets the owner of the contract */
-    function Supplier() {
-        owner = msg.sender;
-        priceInFinney = 10;
-    }
-
-    /* Function to recover the funds on the contract */
-    function kill() onlyOwner()  {
-        selfdestruct(owner);
     }
 
 
