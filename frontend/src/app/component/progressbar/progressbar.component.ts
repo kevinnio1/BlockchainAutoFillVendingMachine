@@ -19,13 +19,13 @@ export class ProgressbarComponent implements OnInit{
   percentageValue:number = 0;
   @Input() stockProgress:number;
   @Input() maxStockProgress:number;
+  @Input() minStockProgress:number;
+  @Input() isAdminProgress:boolean;
 
   ngOnInit(){
     //this.getInitialPercentage();
   }
   getPercentageValue(){
-
-
     return this.stockProgress/this.maxStockProgress*100;
   }
 

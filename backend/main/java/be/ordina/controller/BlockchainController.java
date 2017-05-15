@@ -161,6 +161,74 @@ public class BlockchainController {
         }
         return res;
     }
+    @RequestMapping(value="/getMinStock",method = RequestMethod.GET)
+    public int getMinStock() {
+        int res = 0;
+        try {
+            res = web3jService.getMinStock();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+
+
+    @RequestMapping(value="/setMinStock/{amount}",method = RequestMethod.POST)
+    public int setMinStock(@PathVariable String amount) {
+        int res = 0;
+
+        try {
+            //check if it is an admin
+            boolean isAdmin = userController.currentUserIsAdmin();
+            if(isAdmin){
+                String currentwalletID = userController.getWalletIDcurrentUser();
+                String passwordWallet = userController.getWalletPassword();
+                res = web3jService.setMinStock(Integer.parseInt(amount),currentwalletID,passwordWallet);
+            }else {
+                return getMinStock();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (CipherException e) {
+            e.printStackTrace();
+        }
+        //System.out.println("Result refill stock : " + res);
+        return res;
+    }
+
+    @RequestMapping(value="/setMaxStock/{amount}",method = RequestMethod.POST)
+    public int setMaxStock(@PathVariable String amount) {
+        int res = 0;
+
+        try {
+            //check if it is an admin
+            boolean isAdmin = userController.currentUserIsAdmin();
+            if(isAdmin){
+                String currentwalletID = userController.getWalletIDcurrentUser();
+                String passwordWallet = userController.getWalletPassword();
+                res = web3jService.setMaxStock(Integer.parseInt(amount),currentwalletID,passwordWallet);
+            }else {
+                return getMinStock();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (CipherException e) {
+            e.printStackTrace();
+        }
+        //System.out.println("Result refill stock : " + res);
+        return res;
+    }
 
 
 }

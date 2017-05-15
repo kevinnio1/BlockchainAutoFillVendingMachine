@@ -51,6 +51,20 @@ export class BlockchainService {
       .map(this.subscribeResultHandler.handleResponse)
       .catch(this.subscribeResultHandler.handleError);
   }
+
+  public submitMin(amount:number ){
+    var url = "/api/blockchain/setMinStock/" + amount;
+    return this.http.post(url,{}, this.makeHeaderWithToken())
+      .map(this.subscribeResultHandler.handleResponse)
+      .catch(this.subscribeResultHandler.handleError);
+  }
+  public submitMax(amount:number ){
+    var url = "/api/blockchain/setMaxStock/" + amount;
+    return this.http.post(url,{}, this.makeHeaderWithToken())
+      .map(this.subscribeResultHandler.handleResponse)
+      .catch(this.subscribeResultHandler.handleError);
+  }
+
   public buyOne(){
     var url = "/api/blockchain/buyOne/";
     return this.http.post(url,{}, this.makeHeaderWithToken())
@@ -60,6 +74,11 @@ export class BlockchainService {
 
   public getMaxStock(): Observable<number> {
     return this.http.get("/api/blockchain/getMaxStock", this.makeHeaderWithToken())
+      .map(this.subscribeResultHandler.handleResponse)
+      .catch(this.subscribeResultHandler.handleError);
+  }
+  public getMinStock(): Observable<number> {
+    return this.http.get("/api/blockchain/getMinStock", this.makeHeaderWithToken())
       .map(this.subscribeResultHandler.handleResponse)
       .catch(this.subscribeResultHandler.handleError);
   }

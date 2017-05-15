@@ -11,26 +11,26 @@
 <div class="refill inlineVending">
 <form class="ui form" #refillForm="ngForm" (ngSubmit)="submitRefill()">
   <div id="enterAmount" class="ui input">
-    <input type="number" label="amount" name="amount" id="amount" [(ngModel)]="amount">
+    <input type="number" label="amount" min="1" name="amount" id="amount" [(ngModel)]="amount">
   </div>
-  <div id="btnRefill"><sm-button type="submit" class="primary">Refill</sm-button></div>
+  <div id="btnRefill"><sm-button type="submit" class="primary">Refill Machine</sm-button></div>
 </form>
 </div>
         <div class="setMinStock inlineVending">
-          <form class="ui form" #refillForm="ngForm">
+          <form class="ui form" #refillForm="ngForm" (ngSubmit)="submitMin()">
             <div id="setMinStock" class="ui input" >
-              <input type="number" label="amountMinStock" name="amountMinStock" id="amountMinStock">
+              <input type="number" label="amountMinStock" min="1" name="amountMinStock" id="amountMinStock"[(ngModel)]="amountMinStock" >
             </div>
-            <div id="btnSetMinStock" style="display: inline-block;"><sm-button type="submit" class="primary">Min Stock</sm-button></div>
+            <div id="btnSetMinStock" style="display: inline-block;"><sm-button type="submit" class="primary" >Set Min Stock</sm-button></div>
           </form>
         </div>
 
         <div class="setMaxStock inlineVending">
-          <form class="ui form" #refillForm="ngForm">
+          <form class="ui form" #refillForm="ngForm" (ngSubmit)="submitMax()">
             <div id="setMaxStock" class="ui input" >
-              <input type="number" label="amountMaxStock" name="amountMaxStock" id="amountMaxStock">
+              <input type="number" label="amountMaxStock" min="2" name="amountMaxStock" id="amountMaxStock" [(ngModel)]="amountMaxStock">
             </div>
-            <div id="btnSetMaxStock" style="display: inline-block;"><sm-button type="submit" class="primary">Max Stock</sm-button></div>
+            <div id="btnSetMaxStock" style="display: inline-block;"><sm-button type="submit" class="primary">Set Max Stock</sm-button></div>
           </form>
         </div>
         <br />
@@ -42,7 +42,7 @@
 
   <br />
 
-  <progressbar-component [stockProgress]='stock' [maxStockProgress]='maxStock'></progressbar-component>
+  <progressbar-component [stockProgress]='stock' [maxStockProgress]='maxStock' [minStockProgress]='minStock' [isAdminProgress]='isAdminVending'></progressbar-component>
       </sm-item>
   <br />
 

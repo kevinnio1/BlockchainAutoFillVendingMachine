@@ -8,3 +8,6 @@ div.progress{
 div.progress-bar-animated{
   height:100%;
 }
+span.textProgressBarMid, span.textProgressBarRight{
+  margin-left:2em;
+}

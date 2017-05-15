@@ -130,15 +130,13 @@ public class Web3jService {
 
     public int doEthFunction(String currentwalletID,String passwordWallet, String func,int amountStockup) throws InterruptedException, ExecutionException, CipherException, IOException {
 
-
-
         Function function=null;
         BigInteger ether = Convert.toWei("0.3", Convert.Unit.ETHER).toBigInteger();;
         BigInteger am = BigInteger.valueOf(amountStockup);
         int stock = getStock();
 
         if(func.equalsIgnoreCase("pay")){
-            if(stock==0) return 0;
+            if(stock==0) doReturn(func);
 
             function = new Function("pay", Arrays.<Type>asList(), Collections.<TypeReference<?>>emptyList());
             //todo: get price from contract instead of hardcoded
@@ -154,13 +152,16 @@ public class Web3jService {
             //no stock check needed because the blockchain smart contract has a max value + not enogh coins to buy more
             function = new Function("stockUp", Arrays.<Type>asList(new Int256(am)), Collections.<TypeReference<?>>emptyList());
             ether = Convert.toWei("0.0", Convert.Unit.ETHER).toBigInteger();
+        }else if (func.equalsIgnoreCase("setmin")){
+            function = new Function("setMinStock", Arrays.<Type>asList(new Int256(am)), Collections.<TypeReference<?>>emptyList());
+            ether = Convert.toWei("0.0", Convert.Unit.ETHER).toBigInteger();
+        }else if (func.equalsIgnoreCase("setmax")){
+            function = new Function("setMaxStock", Arrays.<Type>asList(new Int256(am)), Collections.<TypeReference<?>>emptyList());
+            ether = Convert.toWei("0.0", Convert.Unit.ETHER).toBigInteger();
         }
-
         //unlock accounts
         PersonalUnlockAccount currentacc = parity.personalUnlockAccount(currentwalletID,passwordWallet, duration).send();
-
         if (currentacc.accountUnlocked()) {
-
 
             EthGetTransactionCount ethGetTransactionCount = web3.ethGetTransactionCount(currentwalletID, DefaultBlockParameterName.LATEST).sendAsync().get();
             BigInteger nonce = ethGetTransactionCount.getTransactionCount();
@@ -170,22 +171,42 @@ public class Web3jService {
             final String transactionHash = transactionResponse.getTransactionHash();
             if (transactionHash == null) {
                 System.out.println(transactionResponse.getError().getMessage());
-                return getStock();
+                return doReturn(func);
             }
             EthGetTransactionReceipt transactionReceipt = null;
             //todo: indien niet toegevoegd door error moet deze niet wachten op de transactionreceipt. Dus een timeout hierop plaatsen?
             do {
                 transactionReceipt = web3.ethGetTransactionReceipt(transactionHash).sendAsync().get();
             } while (!transactionReceipt.getTransactionReceipt().isPresent());
-            return getStock();
+
+            return doReturn(func);
         }else{
             System.out.println("account is locked");
-            return getStock();
+            return doReturn(func);
         }
 
 
     }
+    public int doReturn(String function) throws InterruptedException, ExecutionException, CipherException, IOException {
+        if(function.equalsIgnoreCase("pay")){
+            return getStock();
+        }else if (function.equalsIgnoreCase("stockup")){
+            return getStock();
+        } else if(function.equalsIgnoreCase("setmin")){
+            return getMinStock();
+        } else if(function.equalsIgnoreCase("setmax")){
+            return getMaxStock();
+        } else {
+            return 0;
+        }
+    }
 
+    public int setMinStock(int amount, String currentwalletID, String passwordWallet) throws InterruptedException, ExecutionException, CipherException, IOException {
+        return doEthFunction(currentwalletID,passwordWallet,"setmin",amount);
+    }
+    public int setMaxStock(int amount, String currentwalletID, String passwordWallet) throws InterruptedException, ExecutionException, CipherException, IOException {
+        return doEthFunction(currentwalletID,passwordWallet,"setmax",amount);
+    }
 
     public int buyOne(String currentwalletID,String passwordWallet) throws IOException, CipherException, ExecutionException, InterruptedException {
         return doEthFunction(currentwalletID,passwordWallet,"pay",0);
@@ -198,6 +219,8 @@ public class Web3jService {
         TransactionReceipt transactionReceipt= vendingContract.addAdmin(newAddress).get();
         return true;
     }
+
+
 
     public boolean addNewUser(String walletID) throws ExecutionException, InterruptedException {
         Address newAddress = new Address(walletID);
@@ -216,13 +239,20 @@ public class Web3jService {
 
     }
 
+
+    public double getPriceFinneyToEther() throws ExecutionException, InterruptedException, IOException, CipherException {
+        Type result = vendingContract.finneyPrice().get();
+        return Double.parseDouble(result.getValue().toString())/1000;
+    }
     public int getMaxStock() throws ExecutionException, InterruptedException {
         Type result = vendingContract.maxStock().get();
         return Integer.parseInt(result.getValue().toString());
 
     }
-    public double getPriceFinneyToEther() throws ExecutionException, InterruptedException, IOException, CipherException {
-        Type result = vendingContract.finneyPrice().get();
-        return Double.parseDouble(result.getValue().toString())/1000;
+    public int getMinStock() throws ExecutionException, InterruptedException {
+        Type result = vendingContract.minStock().get();
+        return Integer.parseInt(result.getValue().toString());
     }
+
+
 }

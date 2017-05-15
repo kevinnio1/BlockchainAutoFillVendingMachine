@@ -2,6 +2,6 @@
 <div class="progress">
   <div class="progress-bar{{type ? ' bg-' + success : ''}}{{true ? ' progress-bar-animated' : ''}}{{true ?
     ' progress-bar-striped' : ''}}" role="progressbar" [style.width.%]="getPercentageValue()">
-    <span >Current stock: {{stockProgress}}</span><ng-content></ng-content>
+    <span *ngIf="isAdminProgress" class="textProgressBarLeft">Minimum: {{minStockProgress}}</span> <span class="textProgressBarMid">Current stock: {{stockProgress}}</span><span *ngIf="isAdminProgress" class="textProgressBarRight">Maximum: {{maxStockProgress}}</span><ng-content></ng-content>
   </div>
 </div>
