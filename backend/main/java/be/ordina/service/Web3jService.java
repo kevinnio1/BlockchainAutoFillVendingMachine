@@ -130,15 +130,11 @@ public class Web3jService {
             if(stock==0) doReturn(func);
 
             function = new Function("pay", Arrays.<Type>asList(), Collections.<TypeReference<?>>emptyList());
-            //todo: get price from contract instead of hardcoded
             ether = Convert.toWei(String.valueOf(getPriceFinneyToEther()), Convert.Unit.ETHER).toBigInteger().add(Transaction.DEFAULT_GAS.multiply(gaslimit));
-
             BigDecimal accountBalance = Convert.fromWei(parity.ethGetBalance(currentwalletID,DefaultBlockParameterName.LATEST).send().getBalance().toString() , Convert.Unit.ETHER);
-
             //check if there is enough money in the wallet. Transaction would automaticly be discarded from the chain, but now we don't need to wait till transaction is verified.
             BigDecimal ethersend = new BigDecimal(ether);
             if(ethersend.compareTo(accountBalance)< 0 ){return getStock();}
-
         }else if(func.equalsIgnoreCase("stockup")) {
             if((getStock()+amountStockup)>getMaxStock()){return doReturn(func);}
             //no stock check needed because the blockchain smart contract has a max value + not enogh coins to buy more
