@@ -144,11 +144,11 @@ public class Web3jService {
             function = new Function("stockUp", Arrays.<Type>asList(new Int256(am)), Collections.<TypeReference<?>>emptyList());
             ether = Convert.toWei("0.0", Convert.Unit.ETHER).toBigInteger();
         }else if (func.equalsIgnoreCase("setmin")){
-            //todo: check that min doesn't go over curerent stock
+            if(amountStockup >= getStock()){return doReturn(func);}
             function = new Function("setMinStock", Arrays.<Type>asList(new Int256(am)), Collections.<TypeReference<?>>emptyList());
             ether = Convert.toWei("0.0", Convert.Unit.ETHER).toBigInteger();
         }else if (func.equalsIgnoreCase("setmax")){
-            //todo: check that max doesn't fall under curerent stock
+            if(amountStockup<getStock()){return doReturn(func);}
             function = new Function("setMaxStock", Arrays.<Type>asList(new Int256(am)), Collections.<TypeReference<?>>emptyList());
             ether = Convert.toWei("0.0", Convert.Unit.ETHER).toBigInteger();
         }
