@@ -14,6 +14,7 @@ export class DashboardComponent implements OnInit{
   public isAdmin:boolean=false;
   public username:string;
   public balance:number;
+  public connectedPeers:number=0;
   constructor(private authService: AuthenticationService, private router: Router, private blockchainService:BlockchainService) {
   }
 
@@ -46,7 +47,19 @@ export class DashboardComponent implements OnInit{
     );
     this.username= this.authService.getCurrentUsername();
     this.onUpdateBalance(null);
+    this.blockchainService.getPeerCount().subscribe(
+      result=>{
+        if(result>=1){
+          this.connectedPeers = result;
+        }else {
+          this.connectedPeers = 0;
+        }
 
+      },
+      error => {
+        console.log(error as string);
+      }
+    );
   }
 
 

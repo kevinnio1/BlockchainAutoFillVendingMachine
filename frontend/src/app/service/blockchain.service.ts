@@ -79,4 +79,12 @@ export class BlockchainService {
       .map(this.subscribeResultHandler.handleResponse)
       .catch(this.subscribeResultHandler.handleError);
   }
+
+
+  public getPeerCount(): Observable<number> {
+    return this.http.get("/api/blockchain/getPeerCount", this.authService.makeHeaderWithToken())
+      .map(this.subscribeResultHandler.handleResponse)
+      .catch(this.subscribeResultHandler.handleError);
+  }
+
 }

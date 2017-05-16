@@ -51,8 +51,6 @@ public class BlockchainController {
         try {
             if(userController.currentUserIsAdmin()){
             res = web3jService.getAccounts();}else {return new ArrayList<>();}
-
-            System.out.println("accounts : " + res);
             return res;
         } catch (IOException e) {
             e.printStackTrace();
@@ -64,6 +62,13 @@ public class BlockchainController {
         }
         return res;
     }
+
+    @RequestMapping(value="/getPeerCount",method = RequestMethod.GET)
+    public int getPeerCount() throws ExecutionException, InterruptedException {
+        //return 1;
+        return web3jService.getConnectedPeers();
+    }
+
 
     @RequestMapping(value="/getStock",method = RequestMethod.GET)
     public int getSTock() {
@@ -245,6 +250,9 @@ public class BlockchainController {
         //System.out.println("Result refill stock : " + res);
         return res;
     }
+
+
+
 
 
 }

@@ -16,7 +16,7 @@ import {BlockchainService} from "../../service/blockchain.service";
 
 export class AccountsComponent implements OnInit{
   private accounts:String[]=[];
-  @Input() isAdminPeer:boolean;
+  @Input() isAdminAccount:boolean;
   constructor(private http:Http, private blockchainService: BlockchainService){}
 
 

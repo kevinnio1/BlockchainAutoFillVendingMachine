@@ -1,12 +1,13 @@
 <div class="ui container">
-  <sm-menu title="Autonomous Drinks Refill" class="inverted blue">
-    <sm-item class="menu right"><h1>Howdy  {{username}}  {{balance}}ETH</h1></sm-item>
+<sm-menu title="Autonomous Drinks Refill" class="inverted blue">
+    <sm-item class="menu left"><h3>Connected peers: {{connectedPeers}}</h3></sm-item>
+    <sm-item class="menu right"><h3>Howdy  {{username}} | Balance:  {{balance}}ETH</h3></sm-item>
   <sm-item style="margin-left: 0px!important;" class="menu right"><h3><sm-button (click)="logout()">Logout</sm-button></h3></sm-item>
 </sm-menu>
 
 
 
-<accounts-component [isAdminPeer]='isAdmin' ></accounts-component>
+<accounts-component [isAdminAccount]='isAdmin' ></accounts-component>
 <vendingmachine-component [isAdminVending]='isAdmin' (updateBalance)="onUpdateBalance($event)"></vendingmachine-component>
 
   <sm-menu class="inverted blue footer">

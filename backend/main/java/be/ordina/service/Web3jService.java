@@ -54,6 +54,7 @@ public class Web3jService {
     Subscription subscription1;
     Subscription subscription2;
     BigInteger duration = BigInteger.valueOf(3600);//one hour
+    private List<String> connectedPeers = new ArrayList<>();
 
     public Web3jService() throws IOException, CipherException {
         this.web3  = Web3j.build(new HttpService());
@@ -247,5 +248,7 @@ public class Web3jService {
     }
 
 
-
+    public int getConnectedPeers() throws ExecutionException, InterruptedException {
+        return web3.netPeerCount().sendAsync().get().getQuantity().intValue();
+    }
 }
