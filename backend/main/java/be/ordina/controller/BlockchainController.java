@@ -106,8 +106,6 @@ public class BlockchainController {
         } catch (CipherException e) {
             e.printStackTrace();
         }
-
-        //System.out.println("Result refill stock : " + res);
         return res;
     }
     
@@ -115,7 +113,6 @@ public class BlockchainController {
     public int buyOne() {
         int res = 0;
         try {
-            //res = web3jService.buyOne();
             String currentwalletID = userController.getWalletIDcurrentUser();
             String passwordWallet = userController.getWalletPassword();
             res = web3jService.buyOne(currentwalletID,passwordWallet);

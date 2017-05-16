@@ -22,11 +22,9 @@ public class UserService {
         try {
 
         mongoRespository.save(user);
-            System.out.println("user saved");
         return true;
         }catch(Exception e){
             e.printStackTrace();
-            System.out.println("error while creating user");
             return false;
         }
     }

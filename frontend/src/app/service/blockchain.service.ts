@@ -18,14 +18,6 @@ export class BlockchainService {
 
   }
 
-
-
-  /*public makeHeaderWithToken():RequestOptions{
-    let options = new RequestOptions();
-    options.headers = new Headers({ 'Authorization': this.cookieUtils.getCookie('Authorization'),'Content-Type' :'application/json','X-Requested-With': 'XMLHttpRequest'});
-    return options;
-  }*/
-
   public getStock(): Observable<number> {
     return this.http.get("/api/blockchain/getStock", this.authService.makeHeaderWithToken())
       .map(this.subscribeResultHandler.handleResponse)

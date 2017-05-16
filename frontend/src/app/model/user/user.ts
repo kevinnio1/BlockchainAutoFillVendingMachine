@@ -1,5 +1,5 @@
 /**
- * Created by Yves on 2/19/2017.
+ * Created by KeLe on 4/20/2017.
  */
 export interface User {
   username: string;
@@ -7,7 +7,3 @@ export interface User {
   walletID: string;
 }
 
-export interface PasswordChange {
-  currentPassword: string;
-  newPassword: string;
-}
