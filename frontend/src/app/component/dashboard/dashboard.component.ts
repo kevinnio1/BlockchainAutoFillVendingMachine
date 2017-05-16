@@ -20,7 +20,6 @@ export class DashboardComponent implements OnInit{
 
 
   onUpdateBalance(emp){
-    console.log("event emitter arrived!");
     this.blockchainService.getBalanceCurrUser().subscribe(
       result=>{
         this.balance=result;

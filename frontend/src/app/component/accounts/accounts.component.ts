@@ -8,13 +8,13 @@ import {CookieUtils} from "../../util/utils";
 import {BlockchainService} from "../../service/blockchain.service";
 
 @Component({
-  selector: 'peer-component',
-  templateUrl: './peer.component.html',
-  styleUrls: ['./peer.component.css'],
+  selector: 'accounts-component',
+  templateUrl: './accounts.component.html',
+  styleUrls: ['./accounts.component.css'],
   providers: [CookieUtils]
 })
 
-export class PeerComponent implements OnInit{
+export class AccountsComponent implements OnInit{
   private accounts:String[]=[];
   @Input() isAdminPeer:boolean;
   constructor(private http:Http, private blockchainService: BlockchainService){}
