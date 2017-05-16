@@ -2,7 +2,7 @@
  * Created by KeLe on 28/04/2017.
  */
 
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {Http} from "@angular/http";
 import {CookieUtils, SubscribeResultHandler} from "../../util/utils";
 import {BlockchainService} from "../../service/blockchain.service";
@@ -27,6 +27,7 @@ export class VendingmachineComponent implements OnInit{
   private amountMaxStock:number;
   private loadingRefill:boolean = true;
   private loadingBuyOne:boolean = false;
+  @Output() updateBalance = new EventEmitter();
   constructor(private http:Http, private blockchainService: BlockchainService){}
 
 
@@ -93,6 +94,7 @@ export class VendingmachineComponent implements OnInit{
       result => {
         this.loadingBuyOne = false;
         this.stock = result;
+        this.updateBalance.emit(null);
       }
     );
 

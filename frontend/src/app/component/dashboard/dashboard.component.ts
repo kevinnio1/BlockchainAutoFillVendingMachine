@@ -19,6 +19,18 @@ export class DashboardComponent implements OnInit{
 
 
 
+  onUpdateBalance(emp){
+    console.log("event emitter arrived!");
+    this.blockchainService.getBalanceCurrUser().subscribe(
+      result=>{
+        this.balance=result;
+      },
+      error => {
+        console.log(error as string);
+      }
+    );
+  }
+
   ngOnInit()
   {
     this.authService.isAdmin().subscribe(
@@ -34,14 +46,7 @@ export class DashboardComponent implements OnInit{
       }
     );
     this.username= this.authService.getCurrentUsername();
-    this.blockchainService.getBalanceCurrUser().subscribe(
-      result=>{
-        this.balance=result;
-      },
-    error => {
-      console.log(error as string);
-    }
-    );
+    this.onUpdateBalance(null);
 
   }
 
