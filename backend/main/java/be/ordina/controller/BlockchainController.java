@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import org.web3j.crypto.CipherException;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -158,6 +160,23 @@ public class BlockchainController {
         }
         return res;
     }
+
+    @RequestMapping(value="/getBalanceCurrUser",method = RequestMethod.GET)
+    public Float getBalanceCurrUser() {
+        BigDecimal res=null;
+        try {
+            res = web3jService.getBalance(userController.getWalletIDcurrentUser());
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return res.floatValue();
+    }
+
     @RequestMapping(value="/getMinStock",method = RequestMethod.GET)
     public int getMinStock() {
         int res = 0;

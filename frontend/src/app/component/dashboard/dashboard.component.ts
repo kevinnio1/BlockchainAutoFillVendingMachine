@@ -3,6 +3,7 @@ import {FormGroup, FormControl, Validators, FormBuilder} from "@angular/forms";
 import {AuthenticationService} from "../../service/authentication.service";
 import {User} from "../../model/user/user";
 import {Router} from "@angular/router";
+import {BlockchainService} from "../../service/blockchain.service";
 
 @Component({
   selector: 'dashboard-component',
@@ -12,7 +13,8 @@ import {Router} from "@angular/router";
 export class DashboardComponent implements OnInit{
   public isAdmin:boolean=false;
   public username:string;
-  constructor(private authService: AuthenticationService, private router: Router) {
+  public balance:number;
+  constructor(private authService: AuthenticationService, private router: Router, private blockchainService:BlockchainService) {
   }
 
 
@@ -26,13 +28,21 @@ export class DashboardComponent implements OnInit{
         }else {
           this.isAdmin = false;
         }
-        this.username= this.authService.getCurrentUsername();
-
         },
       error => {
         console.log(error as string);
       }
     );
+    this.username= this.authService.getCurrentUsername();
+    this.blockchainService.getBalanceCurrUser().subscribe(
+      result=>{
+        this.balance=result;
+      },
+    error => {
+      console.log(error as string);
+    }
+    );
+
   }
 
 

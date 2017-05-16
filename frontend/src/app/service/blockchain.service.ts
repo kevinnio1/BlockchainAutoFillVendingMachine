@@ -73,4 +73,10 @@ export class BlockchainService {
       .map(this.subscribeResultHandler.handleResponse)
       .catch(this.subscribeResultHandler.handleError);
   }
+
+  public getBalanceCurrUser(): Observable<number> {
+    return this.http.get("/api/blockchain/getBalanceCurrUser", this.authService.makeHeaderWithToken())
+      .map(this.subscribeResultHandler.handleResponse)
+      .catch(this.subscribeResultHandler.handleError);
+  }
 }
