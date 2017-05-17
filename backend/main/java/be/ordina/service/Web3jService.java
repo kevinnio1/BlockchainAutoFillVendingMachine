@@ -48,7 +48,7 @@ public class Web3jService {
 
     private Web3j web3; //defaults to http://localhost:8545
     private Credentials credentials;
-    BigInteger gasprice = BigInteger.valueOf(150000);
+    //BigInteger gasprice = BigInteger.valueOf(150000);
     BigInteger gaslimit = BigInteger.valueOf(300000);
     Vending vendingContract;
     Parity parity;
@@ -64,8 +64,9 @@ public class Web3jService {
         this.parity = Parity.build(new HttpService());
         //String url = getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
         String url= System.getProperty( "user.dir" );
-        System.out.println("url is = "+url);
-        String file = url.toString() + "/UTC--2017-05-16T08-20-35.571839662Z--2dee4f4cc57e448e3311124e11aa4238bb7fdd37";
+        //System.out.println("url is = "+url);
+        //String file = url.toString() + "/UTC--2017-05-16T08-20-35.571839662Z--2dee4f4cc57e448e3311124e11aa4238bb7fdd37";
+        String file = url.toString() + "/UTC--2017-05-17T12-51-15.921552827Z--64a17191e22a4034e7b119b2ecb6403533299312";
         System.out.println("file = " + file );
         //this.credentials  = WalletUtils.loadCredentials(BlockchainLocalSettings.VENDING_PASSWORD,    getClass().getResource("/UTC--2017-05-16T08-20-35.571839662Z--2dee4f4cc57e448e3311124e11aa4238bb7fdd37").getFile());
         this.credentials  = WalletUtils.loadCredentials(BlockchainLocalSettings.VENDING_PASSWORD,    file);
@@ -103,7 +104,7 @@ public class Web3jService {
 
     public String getClientVersion() throws IOException, ExecutionException, InterruptedException {
 
-        Web3ClientVersion web3ClientVersion = web3.web3ClientVersion().sendAsync().get();
+        Web3ClientVersion web3ClientVersion = web3.web3ClientVersion().send();
         String clientVersion = web3ClientVersion.getWeb3ClientVersion();
         return clientVersion;
 
@@ -111,9 +112,9 @@ public class Web3jService {
 
     public List<String> getAccounts() throws IOException, ExecutionException, InterruptedException {
         List<String> list = new ArrayList<>();
-        EthAccounts accounts =  web3.ethAccounts().sendAsync().get();
+        EthAccounts accounts =  web3.ethAccounts().send();
         for (String s : accounts.getAccounts()) {
-            BigInteger balance = web3.ethGetBalance(s,DefaultBlockParameterName.LATEST).sendAsync().get().getBalance();
+            BigInteger balance = web3.ethGetBalance(s,DefaultBlockParameterName.LATEST).send().getBalance();
             String accAndBalance = s.concat("  ").concat(Convert.fromWei(balance.toString(), Convert.Unit.ETHER).toString()).concat("ETHER");
             list.add(accAndBalance);
         }
@@ -176,7 +177,7 @@ public class Web3jService {
             EthGetTransactionReceipt transactionReceipt = null;
             //todo: indien niet toegevoegd door error moet deze niet wachten op de transactionreceipt. Dus een timeout hierop plaatsen?
             do {
-                transactionReceipt = web3.ethGetTransactionReceipt(transactionHash).sendAsync().get();
+                transactionReceipt = web3.ethGetTransactionReceipt(transactionHash).send();
             } while (!transactionReceipt.getTransactionReceipt().isPresent());
 
             return doReturn(func);
@@ -202,7 +203,7 @@ public class Web3jService {
         }
     }
     public BigDecimal getBalance(String walletIDcurrentUser) throws IOException, ExecutionException, InterruptedException {
-        BigInteger balance = web3.ethGetBalance(walletIDcurrentUser,DefaultBlockParameterName.LATEST).sendAsync().get().getBalance();
+        BigInteger balance = web3.ethGetBalance(walletIDcurrentUser,DefaultBlockParameterName.LATEST).send().getBalance();
         BigDecimal etherBalance =  Convert.fromWei(balance.toString(), Convert.Unit.ETHER);
         return etherBalance;
     }
@@ -249,7 +250,6 @@ public class Web3jService {
     public int getMaxStock() throws ExecutionException, InterruptedException {
         Type result = vendingContract.maxStock().get();
         return Integer.parseInt(result.getValue().toString());
-
     }
     public int getMinStock() throws ExecutionException, InterruptedException {
         Type result = vendingContract.minStock().get();
@@ -257,12 +257,12 @@ public class Web3jService {
     }
 
 
-    public int getConnectedPeers() throws ExecutionException, InterruptedException {
-        return web3.netPeerCount().sendAsync().get().getQuantity().intValue();
+    public int getConnectedPeers() throws ExecutionException, InterruptedException, IOException {
+        return web3.netPeerCount().send().getQuantity().intValue();
     }
 
-    public String makeNewWallet(String pass) throws ExecutionException, InterruptedException {
-        String res = parity.personalNewAccount(pass).sendAsync().get().getAccountId();
+    public String makeNewWallet(String pass) throws ExecutionException, InterruptedException, IOException {
+        String res = parity.personalNewAccount(pass).send().getAccountId();
         return res;
     }
 }

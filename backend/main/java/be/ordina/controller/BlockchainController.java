@@ -64,7 +64,7 @@ public class BlockchainController {
     }
 
     @RequestMapping(value="/getPeerCount",method = RequestMethod.GET)
-    public int getPeerCount() throws ExecutionException, InterruptedException {
+    public int getPeerCount() throws ExecutionException, InterruptedException, IOException {
         //return 1;
         return web3jService.getConnectedPeers();
     }
@@ -156,7 +156,9 @@ public class BlockchainController {
         int res = 0;
 
         try {
+
             res = web3jService.getMaxStock();
+
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -260,6 +262,8 @@ public class BlockchainController {
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
