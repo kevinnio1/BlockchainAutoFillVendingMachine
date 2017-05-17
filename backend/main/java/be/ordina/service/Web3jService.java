@@ -1,5 +1,6 @@
 package be.ordina.service;
 
+import be.ordina.controller.BlockchainController;
 import be.ordina.model.Vending;
 import org.springframework.stereotype.Service;
 import org.web3j.abi.FunctionEncoder;
@@ -28,6 +29,8 @@ import rx.Subscription;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -56,12 +59,18 @@ public class Web3jService {
     BigInteger duration = BigInteger.valueOf(3600);//one hour
     private List<String> connectedPeers = new ArrayList<>();
 
-    public Web3jService() throws IOException, CipherException {
+    public Web3jService() throws IOException, CipherException, URISyntaxException {
         this.web3  = Web3j.build(new HttpService());
         this.parity = Parity.build(new HttpService());
-        this.credentials  = WalletUtils.loadCredentials(BlockchainLocalSettings.VENDING_PASSWORD, BlockchainLocalSettings.WALLET_MACHINE);
+        //String url = getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+        String url= System.getProperty( "user.dir" );
+        System.out.println("url is = "+url);
+        String file = url.toString() + "/UTC--2017-05-16T08-20-35.571839662Z--2dee4f4cc57e448e3311124e11aa4238bb7fdd37";
+        System.out.println("file = " + file );
+        //this.credentials  = WalletUtils.loadCredentials(BlockchainLocalSettings.VENDING_PASSWORD,    getClass().getResource("/UTC--2017-05-16T08-20-35.571839662Z--2dee4f4cc57e448e3311124e11aa4238bb7fdd37").getFile());
+        this.credentials  = WalletUtils.loadCredentials(BlockchainLocalSettings.VENDING_PASSWORD,    file);
         vendingContract = Vending.load(BlockchainLocalSettings.VENDING_CONTRACT,web3,credentials, ManagedTransaction.GAS_PRICE, Contract.GAS_LIMIT);
-        subscribeToTransactionsandBlocks();
+        //subscribeToTransactionsandBlocks();
     }
 
     public void unsubscribeTransAndBlocks(){
@@ -250,5 +259,10 @@ public class Web3jService {
 
     public int getConnectedPeers() throws ExecutionException, InterruptedException {
         return web3.netPeerCount().sendAsync().get().getQuantity().intValue();
+    }
+
+    public String makeNewWallet(String pass) throws ExecutionException, InterruptedException {
+        String res = parity.personalNewAccount(pass).sendAsync().get().getAccountId();
+        return res;
     }
 }

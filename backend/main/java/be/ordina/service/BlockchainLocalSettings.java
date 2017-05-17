@@ -5,7 +5,7 @@ package be.ordina.service;
  */
 public interface BlockchainLocalSettings {
     //todo: http://stackoverflow.com/questions/6192661/how-to-reference-a-resource-file-correctly-for-jar-and-debugging
-    String WALLET_MACHINE = "%SystemRoot%/chain/keystore/UTC--2017-05-16T08-20-35.571839662Z--2dee4f4cc57e448e3311124e11aa4238bb7fdd37";
+    //String WALLET_MACHINE = "%SystemRoot%/chain/keystore/UTC--2017-05-16T08-20-35.571839662Z--2dee4f4cc57e448e3311124e11aa4238bb7fdd37";
     String VENDING_CONTRACT="0x7D4169B9Fa86c76C90975B82F51e450fa0C1Ad56";
-    String VENDING_PASSWORD="azertyui";
+    String VENDING_PASSWORD="test";
 }

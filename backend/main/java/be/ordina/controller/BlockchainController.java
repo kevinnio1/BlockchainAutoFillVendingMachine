@@ -148,7 +148,6 @@ public class BlockchainController {
 
     public boolean addNewNormalUser(String walletID) throws ExecutionException, InterruptedException {
             return web3jService.addNewUser(walletID);
-
     }
 
 
@@ -168,7 +167,7 @@ public class BlockchainController {
 
     @RequestMapping(value="/getBalanceCurrUser",method = RequestMethod.GET)
     public Float getBalanceCurrUser() {
-        BigDecimal res=null;
+        BigDecimal res=new BigDecimal("0.00");
         try {
             res = web3jService.getBalance(userController.getWalletIDcurrentUser());
 
@@ -252,7 +251,17 @@ public class BlockchainController {
     }
 
 
+    public String makeNewWallet(String pass) {
 
+        try {
 
+            return web3jService.makeNewWallet(pass);
 
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
