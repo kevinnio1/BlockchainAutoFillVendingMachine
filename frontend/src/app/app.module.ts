@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
-import { PeerComponent} from './component/peer/peer.component'
+import { AccountsComponent} from './component/accounts/accounts.component'
 import {VendingmachineComponent} from './component/vendingmachine/vendingmachine.component'
 import { NgSemanticModule } from "ng-semantic";
 import{ LoginComponent } from './component/login/login.component'
@@ -20,7 +20,7 @@ import {ProgressbarComponent} from "./component/progressbar/progressbar.componen
   declarations: [
     AppComponent,
     DashboardComponent,
-    PeerComponent,
+    AccountsComponent,
     LoginComponent,
     RegisterComponent,
     VendingmachineComponent,

@@ -189,7 +189,11 @@ public class Web3jService {
             return 0;
         }
     }
-
+    public BigDecimal getBalance(String walletIDcurrentUser) throws IOException, ExecutionException, InterruptedException {
+        BigInteger balance = web3.ethGetBalance(walletIDcurrentUser,DefaultBlockParameterName.LATEST).sendAsync().get().getBalance();
+        BigDecimal etherBalance =  Convert.fromWei(balance.toString(), Convert.Unit.ETHER);
+        return etherBalance;
+    }
     public int setMinStock(int amount, String currentwalletID, String passwordWallet) throws InterruptedException, ExecutionException, CipherException, IOException {
         return doEthFunction(currentwalletID,passwordWallet,"setmin",amount);
     }
@@ -246,6 +250,7 @@ public class Web3jService {
         Type result = vendingContract.minStock().get();
         return Integer.parseInt(result.getValue().toString());
     }
+
 
 
 }
