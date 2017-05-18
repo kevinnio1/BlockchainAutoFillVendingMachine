@@ -200,6 +200,20 @@ public class BlockchainController {
         return res;
     }
 
+    @RequestMapping(value="/setSupplier/{address}",method = RequestMethod.POST)
+    public boolean setSupplier(@PathVariable String address) {
+        boolean res = false;
+
+        try {
+            res = web3jService.setSupplier(address);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
     @RequestMapping(value="/setMaxStock/{amount}",method = RequestMethod.POST)
     public int setMaxStock(@PathVariable String amount) {
         int res = 0;

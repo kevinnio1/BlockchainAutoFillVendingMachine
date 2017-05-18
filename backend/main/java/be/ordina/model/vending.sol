@@ -38,12 +38,10 @@ contract Supplier {
     }
 
 
-    function () payable {
+   function () payable {
 
     }
 }
-
-
 
 contract VendingMachine {
 
@@ -122,8 +120,8 @@ contract VendingMachine {
                 throw;
             }
 
-            if(stock != maxStock)
-            divideProfit();
+            if(stock != maxStock && stakeholders.length > 0)
+                divideProfit();
 
             stock--;
 
@@ -246,7 +244,11 @@ contract VendingMachine {
     }
 
 
-    function () {
+   function () {
         throw; // throw reverts state to before call
     }
 }
+
+
+
+

@@ -7,9 +7,7 @@ import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
-import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.generated.Int256;
-import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
@@ -201,6 +199,13 @@ public class Web3jService {
 
     public int buyOne(String currentwalletID,String passwordWallet) throws IOException, CipherException, ExecutionException, InterruptedException {
         return doEthFunction(currentwalletID,passwordWallet,"pay",0);
+    }
+
+    public boolean setSupplier(String address) throws ExecutionException, InterruptedException {
+        Address newAddress = new Address(address);
+        //will wait till block is mined
+        TransactionReceipt transactionReceipt= vendingContract.setSupplier(newAddress).get();
+        return true;
     }
 
     public boolean addNewAdmin(String walletID) throws ExecutionException, InterruptedException {
