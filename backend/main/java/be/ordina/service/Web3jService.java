@@ -163,6 +163,10 @@ public class Web3jService {
         }
         //unlock accounts
         PersonalUnlockAccount currentacc = parity.personalUnlockAccount(currentwalletID,passwordWallet, duration).send();
+        if(currentacc==null){
+            System.out.println("CurrentAccount is null!");
+            return doReturn(func);
+        }
         if (currentacc.accountUnlocked()) {
 
             EthGetTransactionCount ethGetTransactionCount = web3.ethGetTransactionCount(currentwalletID, DefaultBlockParameterName.LATEST).sendAsync().get();
