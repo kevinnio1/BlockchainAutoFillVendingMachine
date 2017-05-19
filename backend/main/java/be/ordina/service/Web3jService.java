@@ -64,7 +64,7 @@ public class Web3jService {
         this.parity = Parity.build(new HttpService());
         //String url = getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
         String url= System.getProperty( "user.dir" );
-        
+
         //System.out.println("url is = "+url);
         //String file = url.toString() + "/UTC--2017-05-16T08-20-35.571839662Z--2dee4f4cc57e448e3311124e11aa4238bb7fdd37";
         String file = url.toString() + "/UTC--2017-05-17T12-51-15.921552827Z--64a17191e22a4034e7b119b2ecb6403533299312";
