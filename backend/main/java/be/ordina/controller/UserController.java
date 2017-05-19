@@ -33,7 +33,6 @@ public class UserController {
         boolean success = userService.createUser(newUser);
         if(success){
             try{
-           //return blockchainController.addNewAdmin(newUser.getWalletID());
                 return blockchainController.addNewNormalUser(newUser.getWalletID());
             }catch(Exception e){
                 e.printStackTrace();
@@ -61,6 +60,11 @@ public class UserController {
     public boolean currentUserIsAdmin() {
 
         return userService.getCurrentUser().isAdmin();
+    }
+
+    public boolean makeAdmin(String adminID) {
+
+        return userService.makeAdminBywalletID(adminID);
     }
 
 

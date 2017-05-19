@@ -8,6 +8,7 @@
 
 
 <accounts-component [isAdminAccount]='isAdmin' ></accounts-component>
+  <contract-component [isAdminContract]='isAdmin'></contract-component>
 <vendingmachine-component [isAdminVending]='isAdmin' (updateBalance)="onUpdateBalance($event)"></vendingmachine-component>
   <div class="footer"><h4>Copyright © Kevin Leyssens & Jeroen De Prest made possible by Ordina & Karel de Grote College</h4></div>
 </div>

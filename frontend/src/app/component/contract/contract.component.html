@@ -1,0 +1,34 @@
+<div class="accountscomponent" *ngIf="isAdminContract">
+<h2>CONTRACT COMPONENT</h2>
+  <div class="ui segment">
+    <div class="ui segment">
+      <sm-loader [complete]="!loadingContract" class="inverted" text="Waiting till block is mined..."></sm-loader>
+      <sm-list class="divided">
+       <sm-item>
+         <div class="setSupplier inlineContract">
+           <form class="ui form" #supplierForm="ngForm" (ngSubmit)="submitSupplier()">
+             <div id="setSupplier" class="ui input" >
+               <input type="text" label="supplierID" name="supplierID" id="supplierID" [(ngModel)]="supplierID">
+             </div>
+             <div id="btnSetSupplier" style="display: inline-block;"><sm-button type="submit" class="primary">Set Supplier ID</sm-button></div>
+           </form>
+         </div>
+
+         <div class="setnewAdmin inlineContract">
+           <form class="ui form" #newAdminForm="ngForm" (ngSubmit)="submitNewAdmin()">
+             <div id="setNewAdmin" class="ui input" >
+               <input type="text" label="adminID" name="adminID" id="adminID" [(ngModel)]="adminID">
+             </div>
+             <div id="btnAddNewAdmin" style="display: inline-block;"><sm-button type="submit" class="primary">Add New Admin</sm-button></div>
+           </form>
+         </div>
+
+       </sm-item>
+      </sm-list>
+  </div>
+</div>
+</div>
+
+
+
+

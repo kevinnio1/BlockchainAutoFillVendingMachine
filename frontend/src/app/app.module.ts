@@ -15,11 +15,13 @@ import {AuthenticationService} from "./service/authentication.service";
 import {DashboardComponent} from "./component/dashboard/dashboard.component"
 import {BlockchainService} from "./service/blockchain.service";
 import {ProgressbarComponent} from "./component/progressbar/progressbar.component"
+import {ContractComponent} from "./component/contract/contract.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
+    ContractComponent,
     AccountsComponent,
     LoginComponent,
     RegisterComponent,

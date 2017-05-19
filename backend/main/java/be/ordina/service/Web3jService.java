@@ -26,6 +26,7 @@ import org.web3j.tx.ManagedTransaction;
 import org.web3j.utils.Convert;
 import rx.Subscription;
 
+import javax.sound.midi.Track;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -228,6 +229,7 @@ public class Web3jService {
         Address newAddress = new Address(walletID);
         //will wait till block is mined
         TransactionReceipt transactionReceipt= vendingContract.addAdmin(newAddress).get();
+        System.out.println(transactionReceipt.getLogs());
         return true;
     }
 
@@ -270,4 +272,14 @@ public class Web3jService {
         String res = parity.personalNewAccount(pass).send().getAccountId();
         return res;
     }
+
+
+    public boolean setSupplier(String supplierID) throws ExecutionException, InterruptedException {
+        Address supplierAddress = new Address(supplierID);
+        TransactionReceipt tr =  vendingContract.setSupplier(supplierAddress).get();
+        return true;
+    }
+
+    //todo: remove users
+
 }

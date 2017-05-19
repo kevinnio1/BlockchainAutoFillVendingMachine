@@ -87,4 +87,18 @@ export class BlockchainService {
       .catch(this.subscribeResultHandler.handleError);
   }
 
+  public submitSupplier(supplierID:string ){
+    var url = "/api/blockchain/setSupplier/" + supplierID;
+    return this.http.post(url,{}, this.authService.makeHeaderWithToken())
+      .map(this.subscribeResultHandler.handleResponse)
+      .catch(this.subscribeResultHandler.handleError);
+  }
+
+  public submitnewAdmin(adminID:string){
+    var url = "/api/blockchain/addAdmin/" + adminID;
+    return this.http.post(url,{}, this.authService.makeHeaderWithToken())
+      .map(this.subscribeResultHandler.handleResponse)
+      .catch(this.subscribeResultHandler.handleError);
+  }
+
 }

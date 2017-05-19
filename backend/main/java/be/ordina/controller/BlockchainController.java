@@ -137,9 +137,6 @@ public class BlockchainController {
         return res;
     }
 
-    public boolean addNewAdmin(String walletID) throws ExecutionException, InterruptedException {
-        return web3jService.addNewAdmin(walletID);
-    }
 
     @RequestMapping(value="/getPercentStock",method = RequestMethod.GET)
     public int getPercentStock() throws InterruptedException, ExecutionException, CipherException, IOException {
@@ -268,4 +265,35 @@ public class BlockchainController {
         }
         return null;
     }
+
+    @RequestMapping(value="/setSupplier/{supplierID}",method = RequestMethod.POST)
+    public boolean setSupplier(@PathVariable String supplierID) {
+        boolean res;
+
+        try {
+            //check if it is an admin
+            boolean isAdmin = userController.currentUserIsAdmin();
+            if (isAdmin) {
+                res = web3jService.setSupplier(supplierID);
+                return res;
+            } else {
+                return false;
+            }
+        }catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    @RequestMapping(value="/addAdmin/{adminID}", method=RequestMethod.POST)
+    public boolean addNewAdmin(@PathVariable String adminID) throws ExecutionException, InterruptedException {
+        userController.makeAdmin(adminID);
+        return web3jService.addNewAdmin(adminID);
+    }
+
+
+
+
 }

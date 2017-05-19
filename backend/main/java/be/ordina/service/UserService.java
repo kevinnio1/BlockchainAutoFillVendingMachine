@@ -40,4 +40,13 @@ public class UserService {
     }
 
 
+    public boolean makeAdminBywalletID(String adminID) {
+        AccountCredentials acc =  mongoRespository.findAccountCredentialsByWalletID(adminID);
+        if(acc!=null){
+            acc.setAdmin(true);
+            mongoRespository.save(acc);
+            return true;
+        }else {return false;}
+
+    }
 }
