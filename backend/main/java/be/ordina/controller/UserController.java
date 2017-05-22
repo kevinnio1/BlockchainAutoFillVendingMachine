@@ -26,7 +26,6 @@ public class UserController {
         System.out.println("in the register ");
         AccountCredentials newUser = new AccountCredentials(userRegistration.getUsername(),userRegistration.getPassword(),userRegistration.getWalletID());
 
-        //todo: create new wallet for user and link it to him
         String wallID =  blockchainController.makeNewWallet(newUser.getPassword());
         newUser.setWalletID(wallID);
         newUser.setAdmin(false);
@@ -46,6 +45,11 @@ public class UserController {
     @RequestMapping(value = "/isAdmin",method = RequestMethod.GET)
     public boolean isCurrentUserAdmin(){
         return userService.getCurrentUser().isAdmin();
+    }
+
+    @RequestMapping(value = "/getWalletID",method = RequestMethod.GET)
+    public String getWalletIdCurrUser(){
+        return "{\"walletID\":\"" + userService.getCurrentUser().getWalletID()+ "\"}";
     }
 
     public String getWalletIDcurrentUser(){

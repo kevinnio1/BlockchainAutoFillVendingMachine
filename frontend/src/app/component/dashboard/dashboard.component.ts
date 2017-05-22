@@ -1,7 +1,5 @@
 import {Component, OnInit, OnDestroy} from "@angular/core";
-import {FormGroup, FormControl, Validators, FormBuilder} from "@angular/forms";
 import {AuthenticationService} from "../../service/authentication.service";
-import {User} from "../../model/user/user";
 import {Router} from "@angular/router";
 import {BlockchainService} from "../../service/blockchain.service";
 
@@ -14,6 +12,7 @@ export class DashboardComponent implements OnInit{
   public isAdmin:boolean=false;
   public username:string;
   public balance:number;
+  public walletID:string="0x00";
   public connectedPeers:number=0;
   constructor(private authService: AuthenticationService, private router: Router, private blockchainService:BlockchainService) {
   }
@@ -33,6 +32,7 @@ export class DashboardComponent implements OnInit{
 
   ngOnInit()
   {
+
     this.authService.isAdmin().subscribe(
       result => {
         if(result == true){
@@ -50,7 +50,7 @@ export class DashboardComponent implements OnInit{
     this.blockchainService.getPeerCount().subscribe(
       result=>{
         if(result>=1){
-          this.connectedPeers = result;
+          this.connectedPeers = result+1;
         }else {
           this.connectedPeers = 0;
         }
@@ -59,6 +59,9 @@ export class DashboardComponent implements OnInit{
       error => {
         console.log(error as string);
       }
+    );
+    this.authService.getWalletID().subscribe(
+      result => {console.log(result);this.walletID = result;}
     );
   }
 

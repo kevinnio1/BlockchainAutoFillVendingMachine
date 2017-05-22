@@ -1,8 +1,11 @@
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
+//import {Observable} from 'rxjs/Rx';
 import "rxjs/add/observable/of";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/delay";
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
 import {Http, RequestOptions,Headers, Response} from "@angular/http";
 import {CookieUtils, SubscribeResultHandler} from "../util/utils";
 import {combineAll} from "rxjs/operator/combineAll";
@@ -74,6 +77,12 @@ export class AuthenticationService {
 
   getCurrentUsername(): string {
     return localStorage.getItem("username") || "";
+  }
+
+  getWalletID():Observable<string>{
+    return this.http.get('/api/users/getWalletID',this.makeHeaderWithToken())
+      .map(result => result.json()['walletID'])
+      .catch(this.subscribeResultHandler.handleError);;
   }
 
   logout(): void {

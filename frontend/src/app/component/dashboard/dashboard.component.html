@@ -1,8 +1,9 @@
 <div class="ui container">
-<sm-menu title="Autonomous Drinks Refill" class="inverted blue">
-    <sm-item class="menu left"><h3>Connected peers: {{connectedPeers}}</h3></sm-item>
-    <sm-item class="menu right"><h3>Howdy  {{username}} | Balance:  {{balance}}ETH</h3></sm-item>
-  <sm-item style="margin-left: 0px!important;" class="menu right"><h3><sm-button (click)="logout()">Logout</sm-button></h3></sm-item>
+<sm-menu class="inverted blue">
+    <sm-item class="menu left" style="margin-right: 0px!important;"><h4>Connected peers: {{connectedPeers}}</h4></sm-item>
+  <sm-item class="menu left" style="margin-right: 0px!important;"><h4>WalletID: {{walletID}}</h4></sm-item>
+    <sm-item style="margin-left: 0px!important;" class="menu left"><h4>Howdy  {{username}} | Balance:  {{balance}}ETH</h4></sm-item>
+  <sm-item style="margin-left: 0px!important;" class="menu right"><h4><sm-button (click)="logout()">Logout</sm-button></h4></sm-item>
 </sm-menu>
 
 
