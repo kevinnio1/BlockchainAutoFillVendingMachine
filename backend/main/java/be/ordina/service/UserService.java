@@ -36,17 +36,23 @@ public class UserService {
         if (authentication==null)return null;
         final AccountCredentials authenticatedUser = mongoRespository.findByUsername(authentication.getName());
         return authenticatedUser;
-
     }
 
 
     public boolean makeAdminBywalletID(String adminID) {
+        return setAdmin(adminID,true);
+    }
+
+    public boolean removeAdmin(String adminID) {
+        return setAdmin(adminID,false);
+    }
+
+    public boolean setAdmin(String adminID,boolean isAdmin){
         AccountCredentials acc =  mongoRespository.findAccountCredentialsByWalletID(adminID);
         if(acc!=null){
-            acc.setAdmin(true);
+            acc.setAdmin(isAdmin);
             mongoRespository.save(acc);
             return true;
         }else {return false;}
-
     }
 }

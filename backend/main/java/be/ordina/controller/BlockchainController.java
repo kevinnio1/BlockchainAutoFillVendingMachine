@@ -292,6 +292,11 @@ public class BlockchainController {
         userController.makeAdmin(adminID);
         return web3jService.addNewAdmin(adminID);
     }
+    @RequestMapping(value="/removeAdmin/{adminID}", method=RequestMethod.POST)
+    public boolean removeAdmin(@PathVariable String adminID) throws ExecutionException, InterruptedException {
+        userController.removeAdmin(adminID);
+        return web3jService.removeAdmin(adminID);
+    }
 
 
 

@@ -71,6 +71,10 @@ public class UserController {
         return userService.makeAdminBywalletID(adminID);
     }
 
+    public boolean removeAdmin(String adminID) {
+        return userService.removeAdmin(adminID);
+    }
+
 
     public static class UserRegistration {
         String username;

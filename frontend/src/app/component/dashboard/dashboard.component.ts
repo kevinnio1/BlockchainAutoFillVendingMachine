@@ -22,7 +22,12 @@ export class DashboardComponent implements OnInit{
   onUpdateBalance(emp){
     this.blockchainService.getBalanceCurrUser().subscribe(
       result=>{
-        this.balance=result;
+
+        if(result>0){
+          this.balance=result;
+        }else {
+          this.balance=0;
+        }
       },
       error => {
         console.log(error as string);
@@ -52,7 +57,7 @@ export class DashboardComponent implements OnInit{
         if(result>=1){
           this.connectedPeers = result+1;
         }else {
-          this.connectedPeers = 0;
+          this.connectedPeers = 1;
         }
 
       },
@@ -61,7 +66,7 @@ export class DashboardComponent implements OnInit{
       }
     );
     this.authService.getWalletID().subscribe(
-      result => {console.log(result);this.walletID = result;}
+      result => {this.walletID = result;}
     );
   }
 

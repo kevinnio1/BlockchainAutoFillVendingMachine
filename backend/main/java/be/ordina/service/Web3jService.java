@@ -227,9 +227,13 @@ public class Web3jService {
     public boolean addNewAdmin(String walletID) throws ExecutionException, InterruptedException {
 
         Address newAddress = new Address(walletID);
-        //will wait till block is mined
         TransactionReceipt transactionReceipt= vendingContract.addAdmin(newAddress).get();
-        System.out.println(transactionReceipt.getLogs());
+        return true;
+    }
+
+    public boolean removeAdmin(String adminID) throws ExecutionException, InterruptedException {
+        Address newAddress = new Address(adminID);
+        TransactionReceipt transactionReceipt= vendingContract.removeAdmin(newAddress).get();
         return true;
     }
 
@@ -280,6 +284,6 @@ public class Web3jService {
         return true;
     }
 
-    //todo: remove users
+
 
 }

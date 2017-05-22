@@ -101,4 +101,11 @@ export class BlockchainService {
       .catch(this.subscribeResultHandler.handleError);
   }
 
+  public submitRemoveAdmin(adminID:string){
+    var url = "/api/blockchain/removeAdmin/" + adminID;
+    return this.http.post(url,{}, this.authService.makeHeaderWithToken())
+      .map(this.subscribeResultHandler.handleResponse)
+      .catch(this.subscribeResultHandler.handleError);
+  }
+
 }
