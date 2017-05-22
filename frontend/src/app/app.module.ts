@@ -34,7 +34,7 @@ import {ContractComponent} from "./component/contract/contract.component";
     HttpModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    NgSemanticModule
+NgSemanticModule
   ],
   providers: [AuthGuard,CookieUtils,AuthenticationService,BlockchainService,SubscribeResultHandler],
   bootstrap: [AppComponent]
