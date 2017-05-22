@@ -2,12 +2,15 @@ package be.ordina.security;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.annotation.Id;
 
 /**
  * Created by KeLe on 5/05/2017.
  */
 
 public class AccountCredentials {
+    @Id
+    private String id;
     @JsonProperty("username")
     private String username;
     @JsonProperty("password")
